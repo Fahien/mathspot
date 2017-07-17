@@ -6,6 +6,9 @@
 namespace mst = mathspot;
 
 
+mst::Size mst::Size::null{};
+
+
 mst::Size::Size()
 	: width { 0 }
 	, height{ 0 }
@@ -42,17 +45,26 @@ mst::Size & mst::Size::operator /= (const int & i)
 }
 
 
+const mst::Size mst::Size::operator / (const int & i) const
+{
+	mst::Size result = *this;
+	return result /= i;
+}
+
+
+const bool mst::Size::operator == (const mst::Size & other) const
+{
+	return width == other.width && height == other.height;
+}
+
+
 std::ostream & mst::operator << (std::ostream & os, const mst::Size & s)
 {
 	return os << "[" << s.width << ", " << s.height << "]";
 }
 
 
-const mst::Size mst::Size::operator / (const int & i) const
-{
-	mst::Size result = *this;
-	return result /= i;
-}
+mst::Vec2 mst::Vec2::zero{};
 
 
 mst::Vec2::Vec2()
@@ -98,10 +110,19 @@ const mst::Vec2 mst::Vec2::operator + (const mst::Vec2 & other) const
 }
 
 
-std::ostream & mst::operator<<(std::ostream & os, const Vec2 & v)
+const bool mst::Vec2::operator == (const mst::Vec2 & other) const
+{
+	return x == other.x && y == other.y;
+}
+
+
+std::ostream & mst::operator << (std::ostream & os, const Vec2 & v)
 {
 	return os << "[" << v.x << ", " << v.y << "]";
 }
+
+
+mst::Vec3 mst::Vec3::zero{};
 
 
 mst::Vec3::Vec3()
@@ -155,10 +176,19 @@ mst::Vec3 & mst::Vec3::operator += (const mst::Vec3 & other)
 }
 
 
+const bool mst::Vec3::operator == (const mst::Vec3 & other) const
+{
+	return x == other.x && y == other.y && z == other.z;
+}
+
+
 std::ostream &mst::operator << (std::ostream & os, const mst::Vec3 & v)
 {
 	return os << "[" << v.x << ", " << v.y << ", " << v.z << "]";
 }
+
+
+mst::Mat4 mst::Mat4::zero{};
 
 
 mst::Mat4 mst::Mat4::identity
@@ -208,7 +238,7 @@ float mst::Mat4::operator [] (const int index) const
 }
 
 
-mst::Mat4 & mst::Mat4::operator  =(const mst::Mat4 & other)
+mst::Mat4 & mst::Mat4::operator = (const mst::Mat4 & other)
 {
 	for (int i{ 0 }; i < 16; ++i)
 	{
@@ -260,6 +290,19 @@ const mst::Mat4 mst::Mat4::operator * (const mst::Mat4 & other) const
 {
 	Mat4 result = *this;
 	return result *= other;
+}
+
+
+const bool mst::Mat4::operator == (const mst::Mat4 & other) const
+{
+	for (unsigned i{ 0 }; i < 16; ++i)
+	{
+		if (matrix[i] != other.matrix[i])
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 
@@ -326,12 +369,21 @@ void mst::Mat4::rotateZ(const float radians)
 }
 
 
+mst::Rectangle mst::Rectangle::zero{};
+
+
 mst::Rectangle::Rectangle()
 	: x     { 0.0f }
 	, y     { 0.0f }
 	, width { 0.0f }
 	, height{ 0.0f }
 {}
+
+
+const bool mst::Rectangle::operator == (const mst::Rectangle & other) const
+{
+	return x == 0.0f && y == 0.0f && width == 0.0f && height == 0.0f;
+}
 
 
 bool mst::Rectangle::contains(float xx, float yy)
