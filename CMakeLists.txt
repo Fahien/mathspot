@@ -1,29 +1,30 @@
 cmake_minimum_required(VERSION 3.7.2)
-project(MathSpoT)
+set(MST_TITLE MathSpoT)
+project(${MST_TITLE})
 
 # Version number
 set(MST_VERSION_MAJOR 0)
-set(MST_VERSION_MINOR 1)
-set(MST_TITLE "MathSpoT")
+set(MST_VERSION_MINOR 2)
+set(MST_NAME mathspot)
 
 # Includes
-set(MST_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
-include_directories("${MST_INCLUDE_DIR}")
+set(MST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+include_directories(${MST_INCLUDE_DIR})
 
 # Sources
-set(MST_SOURCE_DIR  "${PROJECT_SOURCE_DIR}/src")
+set(MST_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 set(SOURCES ${MST_SOURCE_DIR}/MathSpot.cpp)
-source_group("Sources" FILES ${SOURCES})
+source_group(Sources FILES ${SOURCES})
 
 set(CMAKE_C_STANDARD   11)
 set(CMAKE_CXX_STANDARD 11)
 
 # Library
-add_library(mathspot ${SOURCES})
-set_target_properties(mathspot PROPERTIES LINKER_LANGUAGE CXX)
+add_library(${MST_NAME} ${SOURCES})
+set_target_properties(${MST_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
 # Test
-set(MST_TEST_DIR "${PROJECT_SOURCE_DIR}/test")
+set(MST_TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
 function(make_test TEST_NAME)
 	# Sources
@@ -33,7 +34,7 @@ function(make_test TEST_NAME)
 	# Executable
 	add_executable(${TEST_NAME} ${TEST_SOURCES})
 	set_target_properties(${TEST_NAME} PROPERTIES LINKER_LANGUAGE CXX)
-	target_link_libraries(${TEST_NAME} mathspot)
+	target_link_libraries(${TEST_NAME} ${MST_NAME})
 	add_test(${TEST_NAME} ${EXECUTABLE_OUTPUT_PATH}/${TEST_NAME})
 endfunction(make_test)
 

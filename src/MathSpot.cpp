@@ -21,7 +21,7 @@ mst::Size::Size(int w, int h)
 {}
 
 
-mst::Size & mst::Size::operator *= (const int & f)
+mst::Size& mst::Size::operator*=(const int& f)
 {
 	width  *= f;
 	height *= f;
@@ -29,15 +29,15 @@ mst::Size & mst::Size::operator *= (const int & f)
 }
 
 
-mst::Size & mst::Size::operator *= (const float & f)
+mst::Size& mst::Size::operator*=(const float& f)
 {
-	width  = static_cast<int>(width * f);
+	width  = static_cast<int>(width  * f);
 	height = static_cast<int>(height * f);
 	return *this;
 }
 
 
-mst::Size & mst::Size::operator /= (const int & i)
+mst::Size& mst::Size::operator/=(const int& i)
 {
 	width  /= i;
 	height /= i;
@@ -45,20 +45,20 @@ mst::Size & mst::Size::operator /= (const int & i)
 }
 
 
-const mst::Size mst::Size::operator / (const int & i) const
+const mst::Size mst::Size::operator/(const int& i) const
 {
 	mst::Size result = *this;
 	return result /= i;
 }
 
 
-const bool mst::Size::operator == (const mst::Size & other) const
+const bool mst::Size::operator==(const mst::Size& other) const
 {
 	return width == other.width && height == other.height;
 }
 
 
-std::ostream & mst::operator << (std::ostream & os, const mst::Size & s)
+std::ostream& mst::operator<<(std::ostream& os, const mst::Size& s)
 {
 	return os << "[" << s.width << ", " << s.height << "]";
 }
@@ -87,7 +87,7 @@ void mst::Vec2::normalize()
 }
 
 
-mst::Vec2 & mst::Vec2::operator = (const mst::Vec2 & other)
+mst::Vec2& mst::Vec2::operator=(const mst::Vec2& other)
 {
 	x = other.x;
 	y = other.y;
@@ -95,7 +95,7 @@ mst::Vec2 & mst::Vec2::operator = (const mst::Vec2 & other)
 }
 
 
-mst::Vec2 & mst::Vec2::operator += (const mst::Vec2 & other)
+mst::Vec2& mst::Vec2::operator+=(const mst::Vec2& other)
 {
 	x += other.x;
 	y += other.y;
@@ -103,20 +103,20 @@ mst::Vec2 & mst::Vec2::operator += (const mst::Vec2 & other)
 }
 
 
-const mst::Vec2 mst::Vec2::operator + (const mst::Vec2 & other) const
+const mst::Vec2 mst::Vec2::operator+(const mst::Vec2& other) const
 {
 	mst::Vec2 result = *this;
 	return result += other;
 }
 
 
-const bool mst::Vec2::operator == (const mst::Vec2 & other) const
+const bool mst::Vec2::operator==(const mst::Vec2& other) const
 {
 	return x == other.x && y == other.y;
 }
 
 
-std::ostream & mst::operator << (std::ostream & os, const Vec2 & v)
+std::ostream& mst::operator<<(std::ostream& os, const Vec2& v)
 {
 	return os << "[" << v.x << ", " << v.y << "]";
 }
@@ -139,7 +139,7 @@ mst::Vec3::Vec3(const float xx, const float yy, const float zz)
 {}
 
 
-mst::Vec3 mst::Vec3::cross(const mst::Vec3 & a, const mst::Vec3 & b)
+mst::Vec3 mst::Vec3::cross(const mst::Vec3& a, const mst::Vec3& b)
 {
 	mst::Vec3 result{};
 	result.x = a.y * b.z - a.z * b.y;
@@ -158,7 +158,7 @@ void mst::Vec3::normalize()
 }
 
 
-mst::Vec3 & mst::Vec3::operator = (const mst::Vec3 & other)
+mst::Vec3& mst::Vec3::operator=(const mst::Vec3& other)
 {
 	x = other.x;
 	y = other.y;
@@ -167,7 +167,7 @@ mst::Vec3 & mst::Vec3::operator = (const mst::Vec3 & other)
 }
 
 
-mst::Vec3 & mst::Vec3::operator += (const mst::Vec3 & other)
+mst::Vec3& mst::Vec3::operator+=(const mst::Vec3& other)
 {
 	x += other.x;
 	y += other.y;
@@ -176,13 +176,13 @@ mst::Vec3 & mst::Vec3::operator += (const mst::Vec3 & other)
 }
 
 
-const bool mst::Vec3::operator == (const mst::Vec3 & other) const
+const bool mst::Vec3::operator==(const mst::Vec3& other) const
 {
 	return x == other.x && y == other.y && z == other.z;
 }
 
 
-std::ostream &mst::operator << (std::ostream & os, const mst::Vec3 & v)
+std::ostream& mst::operator<<(std::ostream& os, const mst::Vec3& v)
 {
 	return os << "[" << v.x << ", " << v.y << ", " << v.z << "]";
 }
@@ -210,14 +210,16 @@ mst::Mat4::Mat4(std::initializer_list<float> list)
 	int i{ 0 };
 	for (float value : list)
 	{
-		matrix[i] = value;
-		++i;
-		if (i == 16) { break; }
+		matrix[i++] = value;
+		if (i == 16)
+		{
+			break;
+		}
 	}
 }
 
 
-mst::Mat4::Mat4(const float * const m)
+mst::Mat4::Mat4(const float* const m)
 {
 	for (int i{ 0 }; i < 16; ++i)
 	{
@@ -226,19 +228,19 @@ mst::Mat4::Mat4(const float * const m)
 }
 
 
-float & mst::Mat4::operator [] (const int index)
+float& mst::Mat4::operator[](const int index)
 {
 	return matrix[index];
 }
 
 
-float mst::Mat4::operator [] (const int index) const
+float mst::Mat4::operator[](const int index) const
 {
 	return matrix[index];
 }
 
 
-mst::Mat4 & mst::Mat4::operator = (const mst::Mat4 & other)
+mst::Mat4& mst::Mat4::operator=(const mst::Mat4& other)
 {
 	for (int i{ 0 }; i < 16; ++i)
 	{
@@ -248,7 +250,7 @@ mst::Mat4 & mst::Mat4::operator = (const mst::Mat4 & other)
 }
 
 
-mst::Mat4 & mst::Mat4::operator += (const mst::Mat4 & other)
+mst::Mat4& mst::Mat4::operator+=(const mst::Mat4& other)
 {
 	for (int i{ 0 }; i < 16; ++i)
 	{
@@ -258,23 +260,23 @@ mst::Mat4 & mst::Mat4::operator += (const mst::Mat4 & other)
 }
 
 
-const mst::Mat4 mst::Mat4::operator + (const mst::Mat4 & other) const
+const mst::Mat4 mst::Mat4::operator+(const mst::Mat4& other) const
 {
 	mst::Mat4 result = *this;
 	return result += other;
 }
 
 
-mst::Mat4 & mst::Mat4::operator *= (const mst::Mat4 & other)
+mst::Mat4& mst::Mat4::operator*=(const mst::Mat4& other)
 {
 	float temp[16];
 	for (int i{ 0 }; i < 4; ++i)
 	{
 		for (int j{ 0 }; j < 4; ++j)
 		{
-			temp[i + j * 4] = matrix[i]      * other[j * 4] +
-			                  matrix[i + 4]  * other[j * 4 + 1] +
-			                  matrix[i + 8]  * other[j * 4 + 2] +
+			temp[i + j * 4] = matrix[i]      * other[j * 4]     +
+			                  matrix[i +  4] * other[j * 4 + 1] +
+			                  matrix[i +  8] * other[j * 4 + 2] +
 			                  matrix[i + 12] * other[j * 4 + 3];
 		}
 	}
@@ -286,14 +288,14 @@ mst::Mat4 & mst::Mat4::operator *= (const mst::Mat4 & other)
 }
 
 
-const mst::Mat4 mst::Mat4::operator * (const mst::Mat4 & other) const
+const mst::Mat4 mst::Mat4::operator*(const mst::Mat4& other) const
 {
 	Mat4 result = *this;
 	return result *= other;
 }
 
 
-const bool mst::Mat4::operator == (const mst::Mat4 & other) const
+const bool mst::Mat4::operator==(const mst::Mat4& other) const
 {
 	for (unsigned i{ 0 }; i < 16; ++i)
 	{
@@ -330,10 +332,10 @@ void mst::Mat4::rotateX(const float radians)
 	float sinrad{ static_cast<float>(std::sin(radians)) };
 	mst::Mat4 rotation
 	{
-		1.0f, 0.0f,    0.0f,   0.0f,
-		0.0f, cosrad,  sinrad, 0.0f,
+		1.0f,    0.0f,   0.0f, 0.0f,
+		0.0f,  cosrad, sinrad, 0.0f,
 		0.0f, -sinrad, cosrad, 0.0f,
-		0.0f, 0.0f,    0.0f,   1.0f
+		0.0f,    0.0f,   0.0f, 1.0f
 	};
 	*this = rotation * *this;
 }
@@ -380,7 +382,7 @@ mst::Rectangle::Rectangle()
 {}
 
 
-const bool mst::Rectangle::operator == (const mst::Rectangle & other) const
+const bool mst::Rectangle::operator==(const mst::Rectangle& other) const
 {
 	return x == 0.0f && y == 0.0f && width == 0.0f && height == 0.0f;
 }
@@ -388,18 +390,19 @@ const bool mst::Rectangle::operator == (const mst::Rectangle & other) const
 
 bool mst::Rectangle::contains(float xx, float yy)
 {
-	return (x <= xx && xx <= (x + width) && y <= yy && yy <= (y + height));
+	return (x <= xx && xx <= (x + width )) &&
+	       (y <= yy && yy <= (y + height));
 }
 
 
-bool mst::Rectangle::intersects(const mst::Rectangle & other)
+bool mst::Rectangle::intersects(const mst::Rectangle& other)
 {
-	return (fabs(x - other.x) * 2 < (width + other.width)) &&
+	return (fabs(x - other.x) * 2 < (width  + other.width )) &&
 	       (fabs(y - other.y) * 2 < (height + other.height));
 }
 
-bool mst::Rectangle::intersects(const Rectangle * other)
+bool mst::Rectangle::intersects(const mst::Rectangle* other)
 {
-	return (fabs(x - other->x) * 2 < (width + other->width)) &&
+	return (fabs(x - other->x) * 2 < (width  + other->width )) &&
 	       (fabs(y - other->y) * 2 < (height + other->height));
 }

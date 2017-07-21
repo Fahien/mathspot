@@ -20,14 +20,14 @@ public:
 	Size();
 	Size(int w, int h);
 
-	Size &     operator *= (const int &   f);
-	Size &     operator *= (const float & f);
-	Size &     operator /= (const int &   i);
-	const Size operator /  (const int &   i) const;
+	Size&      operator*=(const int&   f);
+	Size&      operator*=(const float& f);
+	Size&      operator/=(const int&   i);
+	const Size operator/ (const int&   i) const;
 
-	const bool operator == (const Size & other) const;
+	const bool operator==(const Size& other) const;
 
-	friend std::ostream & operator << (std::ostream & os, const Size & v);
+	friend std::ostream& operator<<(std::ostream& os, const Size& v);
 
 	int width;
 	int height;
@@ -44,13 +44,13 @@ public:
 
 	void normalize();
 
-	Vec2 &     operator =  (const Vec2 & other);
-	Vec2 &     operator += (const Vec2 & other);
-	const Vec2 operator +  (const Vec2 & other) const;
+	Vec2&      operator= (const Vec2& other);
+	Vec2&      operator+=(const Vec2& other);
+	const Vec2 operator+ (const Vec2& other) const;
 
-	const bool operator == (const Vec2 & other) const;
+	const bool operator==(const Vec2& other) const;
 
-	friend std::ostream & operator << (std::ostream & os, const Vec2 & v);
+	friend std::ostream& operator<<(std::ostream& os, const Vec2& v);
 
 	float x;
 	float y;
@@ -65,20 +65,20 @@ public:
 	Vec3();
 	Vec3(const float xx, const float yy, const float zz);
 
-	static Vec3 cross(const Vec3 & a, const Vec3 & b);
+	static Vec3 cross(const Vec3& a, const Vec3& b);
 
 	void normalize();
-	Vec3 & operator =  (const Vec3 & other);
-	Vec3 & operator += (const Vec3 & other);
+	Vec3& operator= (const Vec3& other);
+	Vec3& operator+=(const Vec3& other);
 
-	const bool operator == (const Vec3 & other) const;
+	const bool operator==(const Vec3& other) const;
 
 	float x;
 	float y;
 	float z;
 };
 
-std::ostream & operator << (std::ostream & os, const Vec3 & v);
+std::ostream& operator<<(std::ostream& os, const Vec3& v);
 
 
 class Mat4
@@ -89,17 +89,17 @@ public:
 
 	Mat4();
 	Mat4(std::initializer_list<float>);
-	Mat4(const float * const m);
+	Mat4(const float* const m);
 
-	float &    operator [] (const int index);
-	float      operator [] (const int index) const;
-	Mat4 &     operator =  (const Mat4 & matrix);
-	Mat4 &     operator += (const Mat4 & matrix);
-	const Mat4 operator +  (const Mat4 & other) const;
-	Mat4 &     operator *= (const Mat4 & matrix);
-	const Mat4 operator *  (const Mat4 & other) const;
+	float&     operator[](const int index);
+	float      operator[](const int index) const;
+	Mat4&      operator= (const Mat4& matrix);
+	Mat4&      operator+=(const Mat4& matrix);
+	const Mat4 operator+ (const Mat4& other) const;
+	Mat4&      operator*=(const Mat4& matrix);
+	const Mat4 operator* (const Mat4& other) const;
 
-	const bool operator == (const Mat4 & other) const;
+	const bool operator==(const Mat4& other) const;
 
 	void translateX(const float amount);
 	void translateY(const float amount);
@@ -120,15 +120,15 @@ public:
 
 	Rectangle();
 
-	const bool operator == (const Rectangle & other) const;
+	const bool operator==(const Rectangle& other) const;
 
 	/// Tests whether (x, y) is inside the rectangle
 	bool contains(float x, float y);
 
 	/// Tests whether this rectangle intersects another one
-	bool intersects(const Rectangle & other);
+	bool intersects(const Rectangle& other);
 	/// Tests whether this rectangle intersects another one
-	bool intersects(const Rectangle * other);
+	bool intersects(const Rectangle* other);
 
 	float x;
 	float y;
