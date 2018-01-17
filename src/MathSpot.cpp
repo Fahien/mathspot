@@ -308,25 +308,43 @@ const bool mst::Mat4::operator==(const mst::Mat4& other) const
 }
 
 
-void mst::Mat4::translateX(const float amount)
+void mst::Mat4::TranslateX(const float amount)
 {
 	matrix[12] += amount;
 }
 
 
-void mst::Mat4::translateY(const float amount)
+void mst::Mat4::TranslateY(const float amount)
 {
 	matrix[13] += amount;
 }
 
 
-void mst::Mat4::translateZ(const float amount)
+void mst::Mat4::TranslateZ(const float amount)
 {
 	matrix[14] += amount;
 }
 
 
-void mst::Mat4::rotateX(const float radians)
+void mst::Mat4::ScaleX(const float scale)
+{
+	matrix[0] = scale;
+}
+
+
+void mst::Mat4::ScaleY(const float scale)
+{
+	matrix[5] = scale;
+}
+
+
+void mst::Mat4::ScaleZ(const float scale)
+{
+	matrix[10] = scale;
+}
+
+
+void mst::Mat4::RotateX(const float radians)
 {
 	float cosrad{ static_cast<float>(std::cos(radians)) };
 	float sinrad{ static_cast<float>(std::sin(radians)) };
@@ -341,7 +359,7 @@ void mst::Mat4::rotateX(const float radians)
 }
 
 
-void mst::Mat4::rotateY(const float radians)
+void mst::Mat4::RotateY(const float radians)
 {
 	float cosrad{ static_cast<float>(std::cos(radians)) };
 	float sinrad{ static_cast<float>(std::sin(radians)) };
@@ -356,7 +374,7 @@ void mst::Mat4::rotateY(const float radians)
 }
 
 
-void mst::Mat4::rotateZ(const float radians)
+void mst::Mat4::RotateZ(const float radians)
 {
 	float cosrad{ static_cast<float>(std::cos(radians)) };
 	float sinrad{ static_cast<float>(std::sin(radians)) };

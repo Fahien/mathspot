@@ -101,13 +101,17 @@ public:
 
 	const bool operator==(const Mat4& other) const;
 
-	void translateX(const float amount);
-	void translateY(const float amount);
-	void translateZ(const float amount);
+	void TranslateX(const float amount);
+	void TranslateY(const float amount);
+	void TranslateZ(const float amount);
 
-	void rotateX(const float radians);
-	void rotateY(const float radians);
-	void rotateZ(const float radians);
+	void ScaleX(const float scale);
+	void ScaleY(const float scale);
+	void ScaleZ(const float scale);
+
+	void RotateX(const float radians);
+	void RotateY(const float radians);
+	void RotateZ(const float radians);
 
 	float matrix[16];
 };
