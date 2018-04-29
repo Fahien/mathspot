@@ -81,6 +81,19 @@ public:
 std::ostream& operator<<(std::ostream& os, const Vec3& v);
 
 
+class Quat
+{
+public:
+	Quat() {};
+	Quat(float x, float y, float z, float w);
+
+	float x;
+	float y;
+	float z;
+	float w;
+};
+
+
 class Mat4
 {
 public:
@@ -90,6 +103,7 @@ public:
 	Mat4();
 	Mat4(std::initializer_list<float>);
 	Mat4(const float* const m);
+	Mat4(const Quat& quat);
 
 	float&     operator[](const int index);
 	float      operator[](const int index) const;
@@ -109,6 +123,7 @@ public:
 	void ScaleY(const float scale);
 	void ScaleZ(const float scale);
 
+	void Rotate(const Quat& quat);
 	void RotateX(const float radians);
 	void RotateY(const float radians);
 	void RotateZ(const float radians);

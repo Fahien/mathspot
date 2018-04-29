@@ -3,25 +3,25 @@
 #include "MathSpot.h"
 
 
-namespace mst = mathspot;
+using namespace mathspot;
 
 
-mst::Size mst::Size::null{};
+Size Size::null{};
 
 
-mst::Size::Size()
-	: width { 0 }
-	, height{ 0 }
+Size::Size()
+:	width { 0 }
+,	height{ 0 }
 {}
 
 
-mst::Size::Size(int w, int h)
-	: width { w }
-	, height{ h }
+Size::Size(int w, int h)
+:	width { w }
+,	height{ h }
 {}
 
 
-mst::Size& mst::Size::operator*=(const int& f)
+Size& Size::operator*=(const int& f)
 {
 	width  *= f;
 	height *= f;
@@ -29,7 +29,7 @@ mst::Size& mst::Size::operator*=(const int& f)
 }
 
 
-mst::Size& mst::Size::operator*=(const float& f)
+Size& Size::operator*=(const float& f)
 {
 	width  = static_cast<int>(width  * f);
 	height = static_cast<int>(height * f);
@@ -37,7 +37,7 @@ mst::Size& mst::Size::operator*=(const float& f)
 }
 
 
-mst::Size& mst::Size::operator/=(const int& i)
+Size& Size::operator/=(const int& i)
 {
 	width  /= i;
 	height /= i;
@@ -45,41 +45,41 @@ mst::Size& mst::Size::operator/=(const int& i)
 }
 
 
-const mst::Size mst::Size::operator/(const int& i) const
+const Size Size::operator/(const int& i) const
 {
-	mst::Size result = *this;
+	Size result = *this;
 	return result /= i;
 }
 
 
-const bool mst::Size::operator==(const mst::Size& other) const
+const bool Size::operator==(const Size& other) const
 {
 	return width == other.width && height == other.height;
 }
 
 
-std::ostream& mst::operator<<(std::ostream& os, const mst::Size& s)
+std::ostream& operator<<(std::ostream& os, const Size& s)
 {
 	return os << "[" << s.width << ", " << s.height << "]";
 }
 
 
-mst::Vec2 mst::Vec2::zero{};
+Vec2 Vec2::zero{};
 
 
-mst::Vec2::Vec2()
-	: x{ 0.0f }
-	, y{ 0.0f }
+Vec2::Vec2()
+:	x{ 0.0f }
+,	y{ 0.0f }
 {}
 
 
-mst::Vec2::Vec2(const float xx, const float yy)
-	: x{ xx }
-	, y{ yy }
+Vec2::Vec2(const float xx, const float yy)
+:	x{ xx }
+,	y{ yy }
 {}
 
 
-void mst::Vec2::normalize()
+void Vec2::normalize()
 {
 	float length{ sqrtf(x * x + y * y) };
 	x /= length;
@@ -87,7 +87,7 @@ void mst::Vec2::normalize()
 }
 
 
-mst::Vec2& mst::Vec2::operator=(const mst::Vec2& other)
+Vec2& Vec2::operator=(const Vec2& other)
 {
 	x = other.x;
 	y = other.y;
@@ -95,7 +95,7 @@ mst::Vec2& mst::Vec2::operator=(const mst::Vec2& other)
 }
 
 
-mst::Vec2& mst::Vec2::operator+=(const mst::Vec2& other)
+Vec2& Vec2::operator+=(const Vec2& other)
 {
 	x += other.x;
 	y += other.y;
@@ -103,45 +103,45 @@ mst::Vec2& mst::Vec2::operator+=(const mst::Vec2& other)
 }
 
 
-const mst::Vec2 mst::Vec2::operator+(const mst::Vec2& other) const
+const Vec2 Vec2::operator+(const Vec2& other) const
 {
-	mst::Vec2 result = *this;
+	Vec2 result = *this;
 	return result += other;
 }
 
 
-const bool mst::Vec2::operator==(const mst::Vec2& other) const
+const bool Vec2::operator==(const Vec2& other) const
 {
 	return x == other.x && y == other.y;
 }
 
 
-std::ostream& mst::operator<<(std::ostream& os, const Vec2& v)
+std::ostream& operator<<(std::ostream& os, const Vec2& v)
 {
 	return os << "[" << v.x << ", " << v.y << "]";
 }
 
 
-mst::Vec3 mst::Vec3::zero{};
+Vec3 Vec3::zero{};
 
 
-mst::Vec3::Vec3()
-	: x{ 0.0f }
-	, y{ 0.0f }
-	, z{ 0.0f }
+Vec3::Vec3()
+:	x{ 0.0f }
+,	y{ 0.0f }
+,	z{ 0.0f }
 {}
 
 
-mst::Vec3::Vec3(const float xx, const float yy, const float zz)
-	: x{ xx }
-	, y{ yy }
-	, z{ zz }
+Vec3::Vec3(const float xx, const float yy, const float zz)
+:	x{ xx }
+,	y{ yy }
+,	z{ zz }
 {}
 
 
-mst::Vec3 mst::Vec3::cross(const mst::Vec3& a, const mst::Vec3& b)
+Vec3 Vec3::cross(const Vec3& a, const Vec3& b)
 {
-	mst::Vec3 result{};
+	Vec3 result{};
 	result.x = a.y * b.z - a.z * b.y;
 	result.y = a.z * b.x - a.x * b.z;
 	result.z = a.x * b.y - a.y * b.x;
@@ -149,7 +149,7 @@ mst::Vec3 mst::Vec3::cross(const mst::Vec3& a, const mst::Vec3& b)
 }
 
 
-void mst::Vec3::normalize()
+void Vec3::normalize()
 {
 	float length{ sqrtf(x * x + y * y + z * z) };
 	x /= length;
@@ -158,7 +158,7 @@ void mst::Vec3::normalize()
 }
 
 
-mst::Vec3& mst::Vec3::operator=(const mst::Vec3& other)
+Vec3& Vec3::operator=(const Vec3& other)
 {
 	x = other.x;
 	y = other.y;
@@ -167,7 +167,7 @@ mst::Vec3& mst::Vec3::operator=(const mst::Vec3& other)
 }
 
 
-mst::Vec3& mst::Vec3::operator+=(const mst::Vec3& other)
+Vec3& Vec3::operator+=(const Vec3& other)
 {
 	x += other.x;
 	y += other.y;
@@ -176,22 +176,30 @@ mst::Vec3& mst::Vec3::operator+=(const mst::Vec3& other)
 }
 
 
-const bool mst::Vec3::operator==(const mst::Vec3& other) const
+const bool Vec3::operator==(const Vec3& other) const
 {
 	return x == other.x && y == other.y && z == other.z;
 }
 
 
-std::ostream& mst::operator<<(std::ostream& os, const mst::Vec3& v)
+std::ostream& operator<<(std::ostream& os, const Vec3& v)
 {
 	return os << "[" << v.x << ", " << v.y << ", " << v.z << "]";
 }
 
 
-mst::Mat4 mst::Mat4::zero{};
+Quat::Quat(float xx, float yy, float zz, float ww)
+:	x{ xx }
+,	y{ yy }
+,	z{ zz }
+,	w{ ww }
+{}
 
 
-mst::Mat4 mst::Mat4::identity
+Mat4 Mat4::zero{};
+
+
+Mat4 Mat4::identity
 {
 	1, 0, 0, 0,
 	0, 1, 0, 0,
@@ -200,12 +208,12 @@ mst::Mat4 mst::Mat4::identity
 };
 
 
-mst::Mat4::Mat4()
-	: matrix{ 0.0f }
+Mat4::Mat4()
+:	matrix{ 0.0f }
 {}
 
 
-mst::Mat4::Mat4(std::initializer_list<float> list)
+Mat4::Mat4(std::initializer_list<float> list)
 {
 	int i{ 0 };
 	for (float value : list)
@@ -219,7 +227,7 @@ mst::Mat4::Mat4(std::initializer_list<float> list)
 }
 
 
-mst::Mat4::Mat4(const float* const m)
+Mat4::Mat4(const float* const m)
 {
 	for (int i{ 0 }; i < 16; ++i)
 	{
@@ -228,19 +236,65 @@ mst::Mat4::Mat4(const float* const m)
 }
 
 
-float& mst::Mat4::operator[](const int index)
+Mat4::Mat4(const Quat& q)
+{
+	float s{ 2.0f /
+	         (q.x * q.x +
+	          q.y * q.y +
+	          q.z * q.z +
+	          q.w * q.w) };
+
+	float xs{ s * q.x };
+	float ys{ s * q.y };
+	float zs{ s * q.z };
+
+	float wx{ q.w * xs };
+	float wy{ q.w * ys };
+	float wz{ q.w * zs };
+
+	float xx{ q.x * xs };
+	float xy{ q.x * ys };
+	float xz{ q.x * zs };
+
+	float yy{ q.y * ys };
+	float yz{ q.y * zs };
+	float zz{ q.z * zs };
+
+	matrix[0]  = 1.0f - (yy + zz);
+	matrix[4]  = xy - wz;
+	matrix[8]  = xz + wy;
+	matrix[12] = 0.0f;
+
+	matrix[1]  = xy + wz;
+	matrix[5]  = 1.0f - (xx + zz);
+	matrix[9]  = yz - wx;
+	matrix[13] = 0.0f;
+
+	matrix[2]  = xz - wy;
+	matrix[6]  = yz + wx;
+	matrix[10] = 1.0f - (xx + yy);
+	matrix[14] = 0.0f;
+
+	matrix[3]  = 0.0f;
+	matrix[7]  = 0.0f;
+	matrix[11] = 0.0f;
+	matrix[15] = 1.0f;
+}
+
+
+float& Mat4::operator[](const int index)
 {
 	return matrix[index];
 }
 
 
-float mst::Mat4::operator[](const int index) const
+float Mat4::operator[](const int index) const
 {
 	return matrix[index];
 }
 
 
-mst::Mat4& mst::Mat4::operator=(const mst::Mat4& other)
+Mat4& Mat4::operator=(const Mat4& other)
 {
 	for (int i{ 0 }; i < 16; ++i)
 	{
@@ -250,7 +304,7 @@ mst::Mat4& mst::Mat4::operator=(const mst::Mat4& other)
 }
 
 
-mst::Mat4& mst::Mat4::operator+=(const mst::Mat4& other)
+Mat4& Mat4::operator+=(const Mat4& other)
 {
 	for (int i{ 0 }; i < 16; ++i)
 	{
@@ -260,14 +314,14 @@ mst::Mat4& mst::Mat4::operator+=(const mst::Mat4& other)
 }
 
 
-const mst::Mat4 mst::Mat4::operator+(const mst::Mat4& other) const
+const Mat4 Mat4::operator+(const Mat4& other) const
 {
-	mst::Mat4 result = *this;
+	Mat4 result = *this;
 	return result += other;
 }
 
 
-mst::Mat4& mst::Mat4::operator*=(const mst::Mat4& other)
+Mat4& Mat4::operator*=(const Mat4& other)
 {
 	float temp[16];
 	for (int i{ 0 }; i < 4; ++i)
@@ -288,14 +342,14 @@ mst::Mat4& mst::Mat4::operator*=(const mst::Mat4& other)
 }
 
 
-const mst::Mat4 mst::Mat4::operator*(const mst::Mat4& other) const
+const Mat4 Mat4::operator*(const Mat4& other) const
 {
 	Mat4 result = *this;
 	return result *= other;
 }
 
 
-const bool mst::Mat4::operator==(const mst::Mat4& other) const
+const bool Mat4::operator==(const Mat4& other) const
 {
 	for (unsigned i{ 0 }; i < 16; ++i)
 	{
@@ -308,47 +362,67 @@ const bool mst::Mat4::operator==(const mst::Mat4& other) const
 }
 
 
-void mst::Mat4::TranslateX(const float amount)
+void Mat4::TranslateX(const float amount)
 {
 	matrix[12] += amount;
 }
 
 
-void mst::Mat4::TranslateY(const float amount)
+void Mat4::TranslateY(const float amount)
 {
 	matrix[13] += amount;
 }
 
 
-void mst::Mat4::TranslateZ(const float amount)
+void Mat4::TranslateZ(const float amount)
 {
 	matrix[14] += amount;
 }
 
 
-void mst::Mat4::ScaleX(const float scale)
+void Mat4::ScaleX(const float scale)
 {
 	matrix[0] = scale;
 }
 
 
-void mst::Mat4::ScaleY(const float scale)
+void Mat4::ScaleY(const float scale)
 {
 	matrix[5] = scale;
 }
 
 
-void mst::Mat4::ScaleZ(const float scale)
+void Mat4::ScaleZ(const float scale)
 {
 	matrix[10] = scale;
 }
 
 
-void mst::Mat4::RotateX(const float radians)
+void Mat4::Rotate(const Quat& q)
+{
+	Mat4 q1{
+		 q.w,  q.z, -q.y, -q.x,
+		-q.z,  q.w,  q.x, -q.y,
+		 q.y, -q.x,  q.w, -q.z,
+		 q.x,  q.y,  q.z,  q.w
+	};
+
+	Mat4 q2{
+		 q.w,  q.z, -q.y,  q.x,
+		-q.z,  q.w,  q.x,  q.y,
+		 q.y, -q.x,  q.w,  q.z,
+		-q.x, -q.y, -q.z,  q.w
+	};
+
+	*this = q1 * q2 * *this;
+}
+
+
+void Mat4::RotateX(const float radians)
 {
 	float cosrad{ static_cast<float>(std::cos(radians)) };
 	float sinrad{ static_cast<float>(std::sin(radians)) };
-	mst::Mat4 rotation
+	Mat4 rotation
 	{
 		1.0f,    0.0f,   0.0f, 0.0f,
 		0.0f,  cosrad, sinrad, 0.0f,
@@ -359,11 +433,11 @@ void mst::Mat4::RotateX(const float radians)
 }
 
 
-void mst::Mat4::RotateY(const float radians)
+void Mat4::RotateY(const float radians)
 {
 	float cosrad{ static_cast<float>(std::cos(radians)) };
 	float sinrad{ static_cast<float>(std::sin(radians)) };
-	mst::Mat4 rotation
+	Mat4 rotation
 	{
 		cosrad, 0.0f, -sinrad, 0.0f,
 		0.0f,   1.0f, 0.0f,    0.0f,
@@ -374,11 +448,11 @@ void mst::Mat4::RotateY(const float radians)
 }
 
 
-void mst::Mat4::RotateZ(const float radians)
+void Mat4::RotateZ(const float radians)
 {
 	float cosrad{ static_cast<float>(std::cos(radians)) };
 	float sinrad{ static_cast<float>(std::sin(radians)) };
-	mst::Mat4 rotation
+	Mat4 rotation
 	{
 		cosrad,  sinrad, 0.0f, 0.0f,
 		-sinrad, cosrad, 0.0f, 0.0f,
@@ -389,37 +463,37 @@ void mst::Mat4::RotateZ(const float radians)
 }
 
 
-mst::Rectangle mst::Rectangle::zero{};
+Rectangle Rectangle::zero{};
 
 
-mst::Rectangle::Rectangle()
-	: x     { 0.0f }
-	, y     { 0.0f }
-	, width { 0.0f }
-	, height{ 0.0f }
+Rectangle::Rectangle()
+:	x     { 0.0f }
+,	y     { 0.0f }
+,	width { 0.0f }
+,	height{ 0.0f }
 {}
 
 
-const bool mst::Rectangle::operator==(const mst::Rectangle& other) const
+const bool Rectangle::operator==(const Rectangle& other) const
 {
 	return x == 0.0f && y == 0.0f && width == 0.0f && height == 0.0f;
 }
 
 
-bool mst::Rectangle::contains(float xx, float yy)
+bool Rectangle::contains(float xx, float yy)
 {
 	return (x <= xx && xx <= (x + width )) &&
 	       (y <= yy && yy <= (y + height));
 }
 
 
-bool mst::Rectangle::intersects(const mst::Rectangle& other)
+bool Rectangle::intersects(const Rectangle& other)
 {
 	return (fabs(x - other.x) * 2 < (width  + other.width )) &&
 	       (fabs(y - other.y) * 2 < (height + other.height));
 }
 
-bool mst::Rectangle::intersects(const mst::Rectangle* other)
+bool Rectangle::intersects(const Rectangle* other)
 {
 	return (fabs(x - other->x) * 2 < (width  + other->width )) &&
 	       (fabs(y - other->y) * 2 < (height + other->height));
