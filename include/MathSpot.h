@@ -84,6 +84,8 @@ std::ostream& operator<<(std::ostream& os, const Vec3& v);
 class Quat
 {
 public:
+	static Quat identity;
+
 	Quat() {};
 	Quat(float x, float y, float z, float w);
 
