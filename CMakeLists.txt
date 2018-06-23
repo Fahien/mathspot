@@ -9,7 +9,6 @@ set(MST_NAME mathspot)
 
 # Includes
 set(MST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
-include_directories(${MST_INCLUDE_DIR})
 
 # Sources
 set(MST_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
@@ -21,7 +20,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 # Library
 add_library(${MST_NAME} ${SOURCES})
-set_target_properties(${MST_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+target_include_directories(${MST_NAME} PUBLIC ${MST_INCLUDE_DIR})
 
 # Test
 set(MST_TEST_DIR ${PROJECT_SOURCE_DIR}/test)
@@ -33,7 +32,7 @@ function(make_test TEST_NAME)
 
 	# Executable
 	add_executable(${TEST_NAME} ${TEST_SOURCES})
-	set_target_properties(${TEST_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+	target_include_directories(${TEST_NAME} PRIVATE ${MST_INCLUDE_DIR})
 	target_link_libraries(${TEST_NAME} ${MST_NAME})
 	add_test(${TEST_NAME} ${EXECUTABLE_OUTPUT_PATH}/${TEST_NAME})
 endfunction(make_test)
