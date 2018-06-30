@@ -86,7 +86,6 @@ class Quat
 public:
 	static Quat identity;
 
-	Quat() {};
 	Quat(float x, float y, float z, float w);
 
 	float x;

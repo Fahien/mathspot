@@ -191,7 +191,7 @@ std::ostream& operator<<(std::ostream& os, const Vec3& v)
 Quat Quat::identity{ 0.0f, 0.0f, 0.0f, 1.0f };
 
 
-Quat::Quat(float xx, float yy, float zz, float ww)
+Quat::Quat(float xx = 0.0f, float yy = 0.0f, float zz = 0.0f, float ww = 0.0f)
 :	x{ xx }
 ,	y{ yy }
 ,	z{ zz }
