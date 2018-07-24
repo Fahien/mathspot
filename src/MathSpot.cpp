@@ -365,6 +365,14 @@ const bool Mat4::operator==(const Mat4& other) const
 }
 
 
+void Mat4::Translate(const Vec3& vec)
+{
+	matrix[12] += vec.x;
+	matrix[13] += vec.y;
+	matrix[14] += vec.z;
+}
+
+
 void Mat4::TranslateX(const float amount)
 {
 	matrix[12] += amount;

@@ -116,6 +116,7 @@ public:
 
 	const bool operator==(const Mat4& other) const;
 
+	void Translate(const Vec3& vec);
 	void TranslateX(const float amount);
 	void TranslateY(const float amount);
 	void TranslateZ(const float amount);
