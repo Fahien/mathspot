@@ -1,5 +1,5 @@
 #include <cstdlib>
-#include "MathSpot.h"
+#include "mathspot/Math.h"
 
 #ifdef NDEBUG
 #undef NDEBUG

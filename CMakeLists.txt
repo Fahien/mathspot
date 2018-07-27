@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.6)
-set(MST_TITLE MathSpoT)
+set(MST_TITLE MathSpot)
 project(${MST_TITLE})
 
 # Version number
 set(MST_VERSION_MAJOR 0)
-set(MST_VERSION_MINOR 2)
+set(MST_VERSION_MINOR 3)
 set(MST_NAME mathspot)
 
 # Includes
@@ -12,7 +12,7 @@ set(MST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 # Sources
 set(MST_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
-set(SOURCES ${MST_SOURCE_DIR}/MathSpot.cpp)
+set(SOURCES ${MST_SOURCE_DIR}/Math.cpp)
 source_group(Sources FILES ${SOURCES})
 
 set(CMAKE_C_STANDARD   11)

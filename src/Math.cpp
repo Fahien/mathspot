@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "MathSpot.h"
+#include "mathspot/Math.h"
 
 
 using namespace mathspot;
@@ -79,7 +79,7 @@ Vec2::Vec2(const float xx, const float yy)
 {}
 
 
-void Vec2::normalize()
+void Vec2::Normalize()
 {
 	float length{ sqrtf(x * x + y * y) };
 	x /= length;
@@ -139,7 +139,7 @@ Vec3::Vec3(const float xx, const float yy, const float zz)
 {}
 
 
-Vec3 Vec3::cross(const Vec3& a, const Vec3& b)
+Vec3 Vec3::Cross(const Vec3& a, const Vec3& b)
 {
 	Vec3 result{};
 	result.x = a.y * b.z - a.z * b.y;
@@ -149,7 +149,15 @@ Vec3 Vec3::cross(const Vec3& a, const Vec3& b)
 }
 
 
-void Vec3::normalize()
+void Vec3::Set(const float xx, const float yy, const float zz)
+{
+	x = xx;
+	y = yy;
+	z = zz;
+}
+
+
+void Vec3::Normalize()
 {
 	float length{ sqrtf(x * x + y * y + z * z) };
 	x /= length;
@@ -173,6 +181,12 @@ Vec3& Vec3::operator+=(const Vec3& other)
 	y += other.y;
 	z += other.z;
 	return *this;
+}
+
+
+Vec3 Vec3::operator-() const
+{
+	return Vec3{ -x, -y, -z };
 }
 
 
@@ -491,20 +505,20 @@ const bool Rectangle::operator==(const Rectangle& other) const
 }
 
 
-bool Rectangle::contains(float xx, float yy)
+bool Rectangle::Contains(float xx, float yy)
 {
 	return (x <= xx && xx <= (x + width )) &&
 	       (y <= yy && yy <= (y + height));
 }
 
 
-bool Rectangle::intersects(const Rectangle& other)
+bool Rectangle::Intersects(const Rectangle& other)
 {
 	return (fabs(x - other.x) * 2 < (width  + other.width )) &&
 	       (fabs(y - other.y) * 2 < (height + other.height));
 }
 
-bool Rectangle::intersects(const Rectangle* other)
+bool Rectangle::Intersects(const Rectangle* other)
 {
 	return (fabs(x - other->x) * 2 < (width  + other->width )) &&
 	       (fabs(y - other->y) * 2 < (height + other->height));

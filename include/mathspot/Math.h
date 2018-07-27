@@ -42,7 +42,7 @@ public:
 	Vec2();
 	Vec2(const float xx, const float yy);
 
-	void normalize();
+	void Normalize();
 
 	Vec2&      operator= (const Vec2& other);
 	Vec2&      operator+=(const Vec2& other);
@@ -65,11 +65,13 @@ public:
 	Vec3();
 	Vec3(const float xx, const float yy, const float zz);
 
-	static Vec3 cross(const Vec3& a, const Vec3& b);
+	static Vec3 Cross(const Vec3& a, const Vec3& b);
 
-	void normalize();
+	void Set(const float xx, const float yy, const float zz);
+	void Normalize();
 	Vec3& operator= (const Vec3& other);
 	Vec3& operator+=(const Vec3& other);
+	Vec3  operator-() const;
 
 	const bool operator==(const Vec3& other) const;
 
@@ -144,12 +146,12 @@ public:
 	const bool operator==(const Rectangle& other) const;
 
 	/// Tests whether (x, y) is inside the rectangle
-	bool contains(float x, float y);
+	bool Contains(float x, float y);
 
 	/// Tests whether this rectangle intersects another one
-	bool intersects(const Rectangle& other);
+	bool Intersects(const Rectangle& other);
 	/// Tests whether this rectangle intersects another one
-	bool intersects(const Rectangle* other);
+	bool Intersects(const Rectangle* other);
 
 	float x;
 	float y;
