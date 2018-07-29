@@ -9,7 +9,17 @@ namespace mathspot
 {
 
 
-const float pi{ 3.14159265f };
+const float kPi{ 3.14159265f };
+
+/// Degrees to radians conversion
+/// @param[in] degrees Angle in degrees
+/// @return Angle in radians
+float radians(const float degrees);
+
+/// Radians to degrees conversion
+/// @param[in] radians Angle in radians
+/// @return Angle in degrees
+float degrees(const float radians);
 
 
 class Size
