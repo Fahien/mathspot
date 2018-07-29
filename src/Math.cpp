@@ -6,13 +6,13 @@
 using namespace mathspot;
 
 
-float radians(const float degrees)
+float mathspot::radians(const float degrees)
 {
 	return degrees * kPi / 180.0f;
 }
 
 
-float degrees(const float radians)
+float mathspot::degrees(const float radians)
 {
 	return radians * 180.0f / kPi;
 }

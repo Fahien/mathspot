@@ -42,5 +42,6 @@ make_test(vec2-test)
 make_test(vec3-test)
 make_test(mat4-test)
 make_test(rectangle-test)
+make_test(misc-test)
 
 include(CTest)
