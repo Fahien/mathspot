@@ -44,7 +44,7 @@ public:
 };
 
 
-class Vec2
+class [[pyspot::export]] Vec2
 {
 public:
 	static Vec2 zero;
@@ -67,13 +67,14 @@ public:
 };
 
 
-class Vec3
+class [[pyspot::export]] Vec3
 {
 public:
 	static Vec3 zero;
 
-	Vec3();
-	Vec3(const float xx, const float yy, const float zz);
+	Vec3(const float xx = 0.0f, const float yy = 0.0f, const float zz = 0.0f);
+	Vec3(const Vec3& other);
+	Vec3(Vec3&& other);
 
 	static Vec3 Cross(const Vec3& a, const Vec3& b);
 

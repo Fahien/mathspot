@@ -137,17 +137,24 @@ std::ostream& operator<<(std::ostream& os, const Vec2& v)
 Vec3 Vec3::zero{};
 
 
-Vec3::Vec3()
-:	x{ 0.0f }
-,	y{ 0.0f }
-,	z{ 0.0f }
-{}
-
-
 Vec3::Vec3(const float xx, const float yy, const float zz)
 :	x{ xx }
 ,	y{ yy }
 ,	z{ zz }
+{}
+
+
+Vec3::Vec3(const Vec3& other)
+:	x{ other.x }
+,	y{ other.y }
+,	z{ other.z }
+{}
+
+
+Vec3::Vec3(Vec3&& other)
+:	x{ other.x }
+,	y{ other.y }
+,	z{ other.z }
 {}
 
 
