@@ -1,9 +1,10 @@
-#ifndef MST_MATHSPOT_H
-#define MST_MATHSPOT_H
+#ifndef MST_MATH_H_
+#define MST_MATH_H_
 
 #include <initializer_list>
 #include <iostream>
 
+#define PYSPOT_EXPORT __attribute__( ( annotate( "pyspot" ) ) )
 
 namespace mathspot
 {
@@ -44,7 +45,7 @@ public:
 };
 
 
-class [[pyspot::export]] Vec2
+class PYSPOT_EXPORT Vec2
 {
 public:
 	static Vec2 zero;
@@ -67,7 +68,7 @@ public:
 };
 
 
-class [[pyspot::export]] Vec3
+class PYSPOT_EXPORT Vec3
 {
 public:
 	static Vec3 zero;
@@ -134,6 +135,7 @@ public:
 	void TranslateY(const float amount);
 	void TranslateZ(const float amount);
 
+	void Scale(const Vec3& scale);
 	void ScaleX(const float scale);
 	void ScaleY(const float scale);
 	void ScaleZ(const float scale);
@@ -174,4 +176,4 @@ public:
 }
 
 
-#endif // MST_MATHSPOT_H
+#endif // MST_MATH_H_

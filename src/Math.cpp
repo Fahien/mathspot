@@ -424,6 +424,13 @@ void Mat4::TranslateZ(const float amount)
 }
 
 
+void Mat4::Scale(const Vec3& scale)
+{
+	matrix[0] = scale.x;
+	matrix[5] = scale.y;
+	matrix[10] = scale.z;
+}
+
 void Mat4::ScaleX(const float scale)
 {
 	matrix[0] = scale;
