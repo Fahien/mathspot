@@ -81,6 +81,8 @@ class PYSPOT_EXPORT Vec3
 	void  Normalize();
 	Vec3& operator=( const Vec3& other );
 	Vec3& operator+=( const Vec3& other );
+	Vec3  operator+( const Vec3& other ) const;
+	Vec3  operator-( const Vec3& other ) const;
 	Vec3  operator-() const;
 
 	const bool operator==( const Vec3& other ) const;
@@ -89,6 +91,10 @@ class PYSPOT_EXPORT Vec3
 	float y;
 	float z;
 };
+
+Vec3 operator*( float c, const Vec3& v );
+
+Vec3 lerp( const Vec3& a, const Vec3& b, const float t );
 
 std::ostream& operator<<( std::ostream& os, const Vec3& v );
 
@@ -100,11 +106,26 @@ class Quat
 
 	Quat( float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f );
 
+	void normalize();
+
+	Quat operator-() const;
+
+	Quat operator+( const Quat& other ) const;
+	Quat operator-( const Quat& other ) const;
+
 	float x;
 	float y;
 	float z;
 	float w;
 };
+
+Quat operator*( float c, const Quat& q );
+
+float dot( const Quat& a, const Quat& b );
+
+float length( const Quat& q );
+
+Quat slerp( Quat a, Quat b, float t );
 
 
 class Mat4

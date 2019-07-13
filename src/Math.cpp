@@ -2,17 +2,18 @@
 
 #include "mathspot/Math.h"
 
+#include <iostream>
 
-using namespace mathspot;
 
-
-float mathspot::radians( const float degrees )
+namespace mathspot
+{
+float radians( const float degrees )
 {
 	return degrees * kPi / 180.0f;
 }
 
 
-float mathspot::degrees( const float radians )
+float degrees( const float radians )
 {
 	return radians * 180.0f / kPi;
 }
@@ -210,6 +211,18 @@ Vec3& Vec3::operator+=( const Vec3& other )
 }
 
 
+Vec3 Vec3::operator+( const Vec3& other ) const
+{
+	return { x + other.x, y + other.y, z + other.z };
+}
+
+
+Vec3 Vec3::operator-( const Vec3& other ) const
+{
+	return { x - other.x, y - other.y, z - other.z };
+}
+
+
 Vec3 Vec3::operator-() const
 {
 	return Vec3{ -x, -y, -z };
@@ -219,6 +232,18 @@ Vec3 Vec3::operator-() const
 const bool Vec3::operator==( const Vec3& other ) const
 {
 	return x == other.x && y == other.y && z == other.z;
+}
+
+
+Vec3 operator*( const float c, const Vec3& v )
+{
+	return { c * v.x, c * v.y, c * v.z };
+}
+
+
+Vec3 lerp( const Vec3& a, const Vec3& b, const float t )
+{
+	return a + t * ( b - a );
 }
 
 
@@ -237,6 +262,98 @@ Quat::Quat( float xx, float yy, float zz, float ww )
     , z{ zz }
     , w{ ww }
 {
+}
+
+
+Quat operator*( const float t, const Quat& q )
+{
+	return { t * q.x, t * q.y, t * q.z, t * q.w };
+}
+
+
+Quat Quat::operator-() const
+{
+	return -1.0f * *this;
+}
+
+
+Quat Quat::operator+( const Quat& o ) const
+{
+	return { x + o.x, y + o.y, z + o.z, w + o.w };
+}
+
+
+Quat Quat::operator-( const Quat& o ) const
+{
+	return { -o.x, -o.y, -o.z, o.w };
+}
+
+
+float dot( const Quat& a, const Quat& b )
+{
+	// Standard euclidean for product in 4D
+	return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+}
+
+
+float length( const Quat& q )
+{
+	return std::sqrtf( dot( q, q ) );
+}
+
+
+void Quat::normalize()
+{
+	auto len = length( *this );
+
+	x /= len;
+	y /= len;
+	z /= len;
+	w /= len;
+}
+
+
+Quat slerp( Quat a, Quat b, const float t )
+{
+	// Normalize a and b
+	a.normalize();
+	b.normalize();
+
+	// Cosin of angle between a and b
+	auto d = dot( a, b );
+
+	// Rotate along the shortest path (-90°, 90°)
+	if ( d < 0.0f )
+	{
+		// Reverse one quaternion
+		b = -b;
+		d = -d;
+	}
+
+	// Close vectors reduce to linear interpolation
+	if ( d > 0.984375f )
+	{
+		auto r = a + t * ( b - a );
+		r.normalize();
+		return r;
+	}
+
+	// Find angle between a and b
+	float theta_ab = std::acosf( d );
+	// Find angle between a and result
+	float theta_ar = theta_ab * t;
+
+	std::cout << "Theta ar: " << theta_ar << std::endl;
+
+	float sin_theta_ab = std::sinf( theta_ab );
+	float sin_theta_ar = std::sinf( theta_ar );
+
+	float s0 = std::cos( theta_ar ) - d * sin_theta_ar / sin_theta_ab;
+	float s1 = sin_theta_ar / sin_theta_ab;
+
+	auto r = s0 * a + s1 * b;
+	r.normalize();
+	return r;
 }
 
 
@@ -448,11 +565,46 @@ void Mat4::ScaleZ( const float scale )
 
 void Mat4::Rotate( const Quat& q )
 {
-	Mat4 q1{ q.w, q.z, -q.y, -q.x, -q.z, q.w, q.x, -q.y, q.y, -q.x, q.w, -q.z, q.x, q.y, q.z, q.w };
+	// Mat4 q1{ q.w, q.z, -q.y, -q.x, -q.z, q.w, q.x, -q.y, q.y, -q.x, q.w, -q.z, q.x, q.y, q.z, q.w };
 
-	Mat4 q2{ q.w, q.z, -q.y, q.x, -q.z, q.w, q.x, q.y, q.y, -q.x, q.w, q.z, -q.x, -q.y, -q.z, q.w };
+	// Mat4 q2{ q.w, q.z, -q.y, q.x, -q.z, q.w, q.x, q.y, q.y, -q.x, q.w, q.z, -q.x, -q.y, -q.z, q.w };
 
-	*this = q1 * q2 * *this;
+	//*this = q2 * q1 * *this;
+
+	float xw, yw, zw, xx, yy, yz, xy, xz, zz;
+
+	xx = q.x * q.x;
+	xy = q.x * q.y;
+	xz = q.x * q.z;
+	xw = q.x * q.w;
+
+	yy = q.y * q.y;
+	yz = q.y * q.z;
+	yw = q.y * q.w;
+
+	zz = q.z * q.z;
+	zw = q.z * q.w;
+
+	Mat4 rot{
+		1.0f - 2.0f * ( yy + zz ),
+		2.0f * ( xy - zw ),
+		2.0f * ( xz + yw ),
+		0.0f,  // row1
+		2.0f * ( xy + zw ),
+		1.0f - 2.0f * ( xx + zz ),
+		2.0f * ( yz - xw ),
+		0.0f,  // row2
+		2.0f * ( xz - yw ),
+		2.0f * ( yz + xw ),
+		1.0f - 2.0f * ( xx + yy ),
+		0.0f,  // row3
+		0.0f,
+		0.0f,
+		0.0f,
+		1.0f,  // row4
+	};
+
+	*this = rot * *this;
 }
 
 
@@ -517,3 +669,6 @@ bool Rectangle::Intersects( const Rectangle* other )
 	return ( fabs( x - other->x ) * 2 < ( width + other->width ) ) &&
 	       ( fabs( y - other->y ) * 2 < ( height + other->height ) );
 }
+
+
+}  // namespace mathspot
