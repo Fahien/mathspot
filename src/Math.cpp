@@ -3,6 +3,7 @@
 #include "mathspot/Math.h"
 
 #include <iostream>
+#include <vector>
 
 
 namespace mathspot
@@ -146,6 +147,12 @@ Vec3::Vec3( const float xx, const float yy, const float zz )
     : x{ xx }
     , y{ yy }
     , z{ zz }
+{
+}
+
+
+Vec3::Vec3( const std::vector<float>& v )
+    : Vec3{ v.at( 0 ), v.at( 1 ), v.at( 2 ) }
 {
 }
 
@@ -343,8 +350,6 @@ Quat slerp( Quat a, Quat b, const float t )
 	// Find angle between a and result
 	float theta_ar = theta_ab * t;
 
-	std::cout << "Theta ar: " << theta_ar << std::endl;
-
 	float sin_theta_ab = std::sinf( theta_ab );
 	float sin_theta_ar = std::sinf( theta_ar );
 
@@ -498,6 +503,23 @@ const Mat4 Mat4::operator*( const Mat4& other ) const
 	return result *= other;
 }
 
+Vec3 Mat4::operator*( const Vec3& v ) const
+{
+	float ret[4] = {};
+	for ( auto i = 0; i < 4; ++i )
+	{
+		for ( auto j = 0; j < 3; ++j )
+		{
+			auto vv = ( &( v.x ) )[j];
+			auto mv =  matrix[i + j * 4];
+			ret[i] += mv * vv;
+		}
+		auto mv = matrix[i + 3 * 4];
+		ret[i] += mv;
+	}
+
+	return { ret[0] / ret[3], ret[1] / ret[3], ret[2] / ret[3] };
+}
 
 const bool Mat4::operator==( const Mat4& other ) const
 {

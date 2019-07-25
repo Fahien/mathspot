@@ -66,12 +66,13 @@ class PYSPOT_EXPORT Vec2
 };
 
 
-class PYSPOT_EXPORT Vec3
+class Vec3
 {
   public:
 	static Vec3 zero;
 
 	Vec3( const float xx = 0.0f, const float yy = 0.0f, const float zz = 0.0f );
+	Vec3( const std::vector<float>& v );
 	Vec3( const Vec3& other );
 	Vec3( Vec3&& other );
 
@@ -99,7 +100,7 @@ Vec3 lerp( const Vec3& a, const Vec3& b, const float t );
 std::ostream& operator<<( std::ostream& os, const Vec3& v );
 
 
-class Quat
+class PYSPOT_EXPORT Quat
 {
   public:
 	static Quat identity;
@@ -128,7 +129,7 @@ float length( const Quat& q );
 Quat slerp( Quat a, Quat b, float t );
 
 
-class Mat4
+class PYSPOT_EXPORT Mat4
 {
   public:
 	static Mat4 zero;
@@ -146,6 +147,7 @@ class Mat4
 	const Mat4   operator+( const Mat4& other ) const;
 	Mat4&        operator*=( const Mat4& matrix );
 	const Mat4   operator*( const Mat4& other ) const;
+	Vec3 operator*( const Vec3& v ) const;
 
 	const bool operator==( const Mat4& other ) const;
 
