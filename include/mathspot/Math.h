@@ -4,7 +4,6 @@
 #include <initializer_list>
 #include <iostream>
 
-#define PYSPOT_EXPORT __attribute__( ( annotate( "pyspot" ) ) )
 
 namespace mathspot
 {
@@ -43,7 +42,7 @@ class Size
 };
 
 
-class PYSPOT_EXPORT Vec2
+class Vec2
 {
   public:
 	static Vec2 zero;
@@ -100,7 +99,7 @@ Vec3 lerp( const Vec3& a, const Vec3& b, const float t );
 std::ostream& operator<<( std::ostream& os, const Vec3& v );
 
 
-class PYSPOT_EXPORT Quat
+class Quat
 {
   public:
 	static Quat identity;
@@ -129,14 +128,14 @@ float length( const Quat& q );
 Quat slerp( Quat a, Quat b, float t );
 
 
-class PYSPOT_EXPORT Mat4
+class Mat4
 {
   public:
 	static Mat4 zero;
 	static Mat4 identity;
 
 	Mat4();
-	Mat4( std::initializer_list<float> );
+	Mat4( std::initializer_list<float> l );
 	Mat4( const float* const m );
 	Mat4( const Quat& quat );
 
