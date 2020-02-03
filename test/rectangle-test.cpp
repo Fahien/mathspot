@@ -1,12 +1,12 @@
 #include "test.h"
 
-namespace mst = mathspot;
+namespace mth = spot::math;
 
 
 int main()
 {
-	mst::Rectangle r{};
-	assert(r == mst::Rectangle::zero);
+	mth::Rectangle r{};
+	assert(r == mth::Rectangle::zero);
 
 	return EXIT_SUCCESS;
 }

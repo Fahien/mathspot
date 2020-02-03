@@ -1,7 +1,7 @@
 #include "test.h"
 
 
-using namespace mathspot;
+using namespace spot::math;
 
 int main()
 {

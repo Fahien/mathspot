@@ -1,6 +1,6 @@
 #include "test.h"
 
-using namespace mathspot;
+using namespace spot::math;
 
 
 int main()
@@ -12,10 +12,10 @@ int main()
 	a += b;
 	assert(a == b);
 
-	a.Set(-1.0f, -2.0f, -3.0f);
+	a.set(-1.0f, -2.0f, -3.0f);
 	assert(a == -b);
 
-	Vec3 c{ Vec3::Cross(a, b) };
+	Vec3 c{ Vec3::cross(a, b) };
 	assert(c == Vec3::zero);
 
 	return EXIT_SUCCESS;

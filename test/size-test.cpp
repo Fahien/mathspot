@@ -1,12 +1,12 @@
 #include "test.h"
 
-namespace mst = mathspot;
+namespace mth = spot::math;
 
 
 int main()
 {
-	mst::Size len{};
-	assert(len == mst::Size::null);
+	mth::Size len{};
+	assert(len == mth::Size::null);
 
 	return EXIT_SUCCESS;
 }

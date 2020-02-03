@@ -1,12 +1,12 @@
 #include "test.h"
 
-namespace mst = mathspot;
+namespace mth = spot::math;
 
 
 int main()
 {
-	mst::Mat4 a{};
-	assert(a == mst::Mat4::zero);
+	mth::Mat4 a{};
+	assert(a == mth::Mat4::zero);
 
 	return EXIT_SUCCESS;
 }

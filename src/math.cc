@@ -1,13 +1,12 @@
+#include "spot/math/math.h"
+
 #include <cmath>
-
-#include "mathspot/Math.h"
-
 #include <iostream>
-#include <vector>
 
 
-namespace mathspot
+namespace spot::math
 {
+
 float radians( const float degrees )
 {
 	return degrees * kPi / 180.0f;
@@ -97,9 +96,9 @@ Vec2::Vec2( const float xx, const float yy )
 }
 
 
-void Vec2::Normalize()
+void Vec2::normalize()
 {
-	float length{ sqrtf( x * x + y * y ) };
+	float length = sqrtf( x * x + y * y );
 	x /= length;
 	y /= length;
 }
@@ -173,17 +172,23 @@ Vec3::Vec3( Vec3&& other )
 }
 
 
-Vec3 Vec3::Cross( const Vec3& a, const Vec3& b )
+Vec3 Vec3::cross( const Vec3& a, const Vec3& b )
 {
-	Vec3 result{};
+	Vec3 result = {};
 	result.x = a.y * b.z - a.z * b.y;
 	result.y = a.z * b.x - a.x * b.z;
 	result.z = a.x * b.y - a.y * b.x;
 	return result;
 }
 
+float Vec3::dot( const Vec3& a, const Vec3& b )
+{
+	return a.x * b.x + a.y * b.y + a.z * b.z;
+}
 
-void Vec3::Set( const float xx, const float yy, const float zz )
+
+
+void Vec3::set( const float xx, const float yy, const float zz )
 {
 	x = xx;
 	y = yy;
@@ -191,9 +196,9 @@ void Vec3::Set( const float xx, const float yy, const float zz )
 }
 
 
-void Vec3::Normalize()
+void Vec3::normalize()
 {
-	float length{ sqrtf( x * x + y * y + z * z ) };
+	float length = sqrtf( x * x + y * y + z * z );
 	x /= length;
 	y /= length;
 	z /= length;
@@ -305,7 +310,7 @@ float dot( const Quat& a, const Quat& b )
 
 float length( const Quat& q )
 {
-	return std::sqrtf( dot( q, q ) );
+	return sqrtf( dot( q, q ) );
 }
 
 
@@ -346,12 +351,12 @@ Quat slerp( Quat a, Quat b, const float t )
 	}
 
 	// Find angle between a and b
-	float theta_ab = std::acosf( d );
+	float theta_ab = acosf( d );
 	// Find angle between a and result
 	float theta_ar = theta_ab * t;
 
-	float sin_theta_ab = std::sinf( theta_ab );
-	float sin_theta_ar = std::sinf( theta_ar );
+	float sin_theta_ab = sinf( theta_ab );
+	float sin_theta_ar = sinf( theta_ar );
 
 	float s0 = std::cos( theta_ar ) - d * sin_theta_ar / sin_theta_ab;
 	float s1 = sin_theta_ar / sin_theta_ab;
@@ -534,7 +539,7 @@ const bool Mat4::operator==( const Mat4& other ) const
 }
 
 
-void Mat4::Translate( const Vec3& vec )
+void Mat4::translate( const Vec3& vec )
 {
 	matrix[12] += vec.x;
 	matrix[13] += vec.y;
@@ -542,50 +547,50 @@ void Mat4::Translate( const Vec3& vec )
 }
 
 
-void Mat4::TranslateX( const float amount )
+void Mat4::translateX( const float amount )
 {
 	matrix[12] += amount;
 }
 
 
-void Mat4::TranslateY( const float amount )
+void Mat4::translateY( const float amount )
 {
 	matrix[13] += amount;
 }
 
 
-void Mat4::TranslateZ( const float amount )
+void Mat4::translateZ( const float amount )
 {
 	matrix[14] += amount;
 }
 
 
-void Mat4::Scale( const Vec3& scale )
+void Mat4::scale( const Vec3& scale )
 {
 	matrix[0]  = scale.x;
 	matrix[5]  = scale.y;
 	matrix[10] = scale.z;
 }
 
-void Mat4::ScaleX( const float scale )
+void Mat4::scaleX( const float scale )
 {
 	matrix[0] = scale;
 }
 
 
-void Mat4::ScaleY( const float scale )
+void Mat4::scaleY( const float scale )
 {
 	matrix[5] = scale;
 }
 
 
-void Mat4::ScaleZ( const float scale )
+void Mat4::scaleZ( const float scale )
 {
 	matrix[10] = scale;
 }
 
 
-void Mat4::Rotate( const Quat& q )
+void Mat4::rotate( const Quat& q )
 {
 	// Mat4 q1{ q.w, q.z, -q.y, -q.x, -q.z, q.w, q.x, -q.y, q.y, -q.x, q.w, -q.z, q.x, q.y, q.z, q.w };
 
@@ -630,7 +635,7 @@ void Mat4::Rotate( const Quat& q )
 }
 
 
-void Mat4::RotateX( const float radians )
+void Mat4::rotateX( const float radians )
 {
 	float cosrad{ static_cast<float>( std::cos( radians ) ) };
 	float sinrad{ static_cast<float>( std::sin( radians ) ) };
@@ -639,7 +644,7 @@ void Mat4::RotateX( const float radians )
 }
 
 
-void Mat4::RotateY( const float radians )
+void Mat4::rotateY( const float radians )
 {
 	float cosrad{ static_cast<float>( std::cos( radians ) ) };
 	float sinrad{ static_cast<float>( std::sin( radians ) ) };
@@ -648,7 +653,7 @@ void Mat4::RotateY( const float radians )
 }
 
 
-void Mat4::RotateZ( const float radians )
+void Mat4::rotateZ( const float radians )
 {
 	float cosrad{ static_cast<float>( std::cos( radians ) ) };
 	float sinrad{ static_cast<float>( std::sin( radians ) ) };
@@ -675,22 +680,22 @@ const bool Rectangle::operator==( const Rectangle& other ) const
 }
 
 
-bool Rectangle::Contains( float xx, float yy )
+bool Rectangle::contains( float xx, float yy )
 {
 	return ( x <= xx && xx <= ( x + width ) ) && ( y <= yy && yy <= ( y + height ) );
 }
 
 
-bool Rectangle::Intersects( const Rectangle& other )
+bool Rectangle::intersects( const Rectangle& other )
 {
 	return ( fabs( x - other.x ) * 2 < ( width + other.width ) ) && ( fabs( y - other.y ) * 2 < ( height + other.height ) );
 }
 
-bool Rectangle::Intersects( const Rectangle* other )
+bool Rectangle::intersects( const Rectangle* other )
 {
 	return ( fabs( x - other->x ) * 2 < ( width + other->width ) ) &&
 	       ( fabs( y - other->y ) * 2 < ( height + other->height ) );
 }
 
 
-}  // namespace mathspot
+}  // namespace spot::math
