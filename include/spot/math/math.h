@@ -101,13 +101,16 @@ Vec3 lerp( const Vec3& a, const Vec3& b, const float t );
 
 std::ostream& operator<<( std::ostream& os, const Vec3& v );
 
+class Mat4;
 
 class Quat
 {
   public:
 	static Quat identity;
 
-	Quat( float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f );
+	Quat( float w = 0.0f, float x = 0.0f, float y = 0.0f, float z = 0.0f );
+
+	Quat( const Mat4& m );
 
 	void normalize();
 
@@ -116,10 +119,10 @@ class Quat
 	Quat operator+( const Quat& other ) const;
 	Quat operator-( const Quat& other ) const;
 
+	float w;
 	float x;
 	float y;
 	float z;
-	float w;
 };
 
 Quat operator*( float c, const Quat& q );
@@ -142,8 +145,10 @@ class Mat4
 	Mat4( const float* const m );
 	Mat4( const Quat& quat );
 
-	float&       operator[]( const int index );
-	const float& operator[]( const int index ) const;
+	float&       operator()( const size_t index );
+	const float& operator()( const size_t index ) const;
+	const float* operator[]( const size_t index ) const;
+	float* operator[]( const size_t index );
 	Mat4&        operator=( const Mat4& matrix );
 	Mat4&        operator+=( const Mat4& matrix );
 	const Mat4   operator+( const Mat4& other ) const;

@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <cassert>
 
 
 namespace spot::math
@@ -181,11 +182,11 @@ Vec3 Vec3::cross( const Vec3& a, const Vec3& b )
 	return result;
 }
 
+
 float Vec3::dot( const Vec3& a, const Vec3& b )
 {
 	return a.x * b.x + a.y * b.y + a.z * b.z;
 }
-
 
 
 void Vec3::set( const float xx, const float yy, const float zz )
@@ -265,21 +266,61 @@ std::ostream& operator<<( std::ostream& os, const Vec3& v )
 }
 
 
-Quat Quat::identity{ 0.0f, 0.0f, 0.0f, 1.0f };
+Quat Quat::identity = { 1.0f, 0.0f, 0.0f, 0.0f };
 
 
-Quat::Quat( float xx, float yy, float zz, float ww )
-    : x{ xx }
-    , y{ yy }
-    , z{ zz }
-    , w{ ww }
+Quat::Quat( float ww, float xx, float yy, float zz )
+: w{ ww }
+, x{ xx }
+, y{ yy }
+, z{ zz }
 {
+}
+
+Quat::Quat( const Mat4& matrix )
+{
+	if ( matrix[2][2] < 0.0f )
+	{
+		if ( matrix[0][0] > matrix[2][2] )
+		{
+			x = 1.0f + matrix[0][0] - matrix[1][1] - matrix[2][2];
+			y = matrix[0][1] + matrix[1][0];
+			z = matrix[2][0] + matrix[0][2];
+			w = matrix[1][2] - matrix[2][1];
+		}
+		else
+		{
+			y = 1.0f - matrix[0][0] + matrix[1][1] - matrix[2][2];
+			x = matrix[0][1] + matrix[1][0];
+			z = matrix[1][2] + matrix[2][1];
+			w = matrix[2][0] - matrix[0][2];
+		}
+	}
+	else
+	{
+		if ( matrix[0][0] < -matrix[1][1] )
+		{
+			z = 1.0f - matrix[0][0] - matrix[1][1] + matrix[2][2];
+			x = matrix[2][0] + matrix[0][2];
+			y = matrix[1][2] + matrix[2][1];
+			w = matrix[0][1] - matrix[1][0];
+		}
+		else
+		{
+			w = 1.0f + matrix[0][0] + matrix[1][1] + matrix[2][2];
+			x = matrix[1][2] - matrix[2][1];
+			y = matrix[2][0] - matrix[0][2];
+			z = matrix[0][1] - matrix[1][0];
+		}
+	}
+
+	normalize();
 }
 
 
 Quat operator*( const float t, const Quat& q )
 {
-	return { t * q.x, t * q.y, t * q.z, t * q.w };
+	return { t * q.w, t * q.x, t * q.y, t * q.z };
 }
 
 
@@ -291,13 +332,13 @@ Quat Quat::operator-() const
 
 Quat Quat::operator+( const Quat& o ) const
 {
-	return { x + o.x, y + o.y, z + o.z, w + o.w };
+	return { w + o.w, x + o.x, y + o.y, z + o.z };
 }
 
 
 Quat Quat::operator-( const Quat& o ) const
 {
-	return { -o.x, -o.y, -o.z, o.w };
+	return { -o.w, -o.y, -o.z, o.x };
 }
 
 
@@ -444,15 +485,31 @@ Mat4::Mat4( const Quat& q )
 }
 
 
-float& Mat4::operator[]( const int index )
+float& Mat4::operator()( const size_t index )
 {
+	assert( index < 16 && "Index out of bound" );
 	return matrix[index];
 }
 
 
-const float& Mat4::operator[]( const int index ) const
+const float& Mat4::operator()( const size_t index ) const
 {
+	assert( index < 16 && "Index out of bound" );
 	return matrix[index];
+}
+
+
+const float* Mat4::operator[]( const size_t index ) const
+{
+	assert( index < 4 && "Index out of bound" );
+	return matrix + ( index * 4 );
+}
+
+
+float* Mat4::operator[]( const size_t index )
+{
+	assert( index < 4 && "Index out of bound" );
+	return matrix + ( index * 4 );
 }
 
 
@@ -486,15 +543,15 @@ const Mat4 Mat4::operator+( const Mat4& other ) const
 Mat4& Mat4::operator*=( const Mat4& other )
 {
 	float temp[16];
-	for ( int i{ 0 }; i < 4; ++i )
+	for ( size_t i = 0; i < 4; ++i )
 	{
-		for ( int j{ 0 }; j < 4; ++j )
+		for ( size_t j = 0; j < 4; ++j )
 		{
-			temp[i + j * 4] = matrix[i] * other[j * 4] + matrix[i + 4] * other[j * 4 + 1] +
-			                  matrix[i + 8] * other[j * 4 + 2] + matrix[i + 12] * other[j * 4 + 3];
+			temp[i + j * 4] = matrix[i] * other.matrix[j * 4] + matrix[i + 4] * other.matrix[j * 4 + 1] +
+			                  matrix[i + 8] * other.matrix[j * 4 + 2] + matrix[i + 12] * other.matrix[j * 4 + 3];
 		}
 	}
-	for ( int i{ 0 }; i < 16; ++i )
+	for ( int i = 0; i < 16; ++i )
 	{
 		matrix[i] = temp[i];
 	}
@@ -507,6 +564,7 @@ const Mat4 Mat4::operator*( const Mat4& other ) const
 	Mat4 result = *this;
 	return result *= other;
 }
+
 
 Vec3 Mat4::operator*( const Vec3& v ) const
 {
@@ -525,6 +583,7 @@ Vec3 Mat4::operator*( const Vec3& v ) const
 
 	return { ret[0] / ret[3], ret[1] / ret[3], ret[2] / ret[3] };
 }
+
 
 const bool Mat4::operator==( const Mat4& other ) const
 {
@@ -572,6 +631,7 @@ void Mat4::scale( const Vec3& scale )
 	matrix[10] = scale.z;
 }
 
+
 void Mat4::scaleX( const float scale )
 {
 	matrix[0] = scale;
@@ -592,12 +652,6 @@ void Mat4::scaleZ( const float scale )
 
 void Mat4::rotate( const Quat& q )
 {
-	// Mat4 q1{ q.w, q.z, -q.y, -q.x, -q.z, q.w, q.x, -q.y, q.y, -q.x, q.w, -q.z, q.x, q.y, q.z, q.w };
-
-	// Mat4 q2{ q.w, q.z, -q.y, q.x, -q.z, q.w, q.x, q.y, q.y, -q.x, q.w, q.z, -q.x, -q.y, -q.z, q.w };
-
-	//*this = q2 * q1 * *this;
-
 	float xw, yw, zw, xx, yy, yz, xy, xz, zz;
 
 	xx = q.x * q.x;
@@ -637,17 +691,21 @@ void Mat4::rotate( const Quat& q )
 
 void Mat4::rotateX( const float radians )
 {
-	float cosrad{ static_cast<float>( std::cos( radians ) ) };
-	float sinrad{ static_cast<float>( std::sin( radians ) ) };
-	Mat4 rotation{ 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, cosrad, sinrad, 0.0f, 0.0f, -sinrad, cosrad, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
+	float cosrad = std::cos( radians );
+	float sinrad = std::sin( radians );
+	Mat4 rotation{
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, cosrad, sinrad, 0.0f,
+		0.0f, -sinrad, cosrad, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f };
 	*this = rotation * *this;
 }
 
 
 void Mat4::rotateY( const float radians )
 {
-	float cosrad{ static_cast<float>( std::cos( radians ) ) };
-	float sinrad{ static_cast<float>( std::sin( radians ) ) };
+	float cosrad = std::cos( radians );
+	float sinrad = std::sin( radians );
 	Mat4 rotation{ cosrad, 0.0f, -sinrad, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, sinrad, 0.0f, cosrad, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
 	*this = rotation * *this;
 }
@@ -655,9 +713,13 @@ void Mat4::rotateY( const float radians )
 
 void Mat4::rotateZ( const float radians )
 {
-	float cosrad{ static_cast<float>( std::cos( radians ) ) };
-	float sinrad{ static_cast<float>( std::sin( radians ) ) };
-	Mat4 rotation{ cosrad, sinrad, 0.0f, 0.0f, -sinrad, cosrad, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
+	float cosrad = std::cos( radians );
+	float sinrad = std::sin( radians );
+	Mat4 rotation {
+		cosrad, sinrad, 0.0f, 0.0f,
+		-sinrad, cosrad, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f };
 	*this = rotation * *this;
 }
 
@@ -690,6 +752,7 @@ bool Rectangle::intersects( const Rectangle& other )
 {
 	return ( fabs( x - other.x ) * 2 < ( width + other.width ) ) && ( fabs( y - other.y ) * 2 < ( height + other.height ) );
 }
+
 
 bool Rectangle::intersects( const Rectangle* other )
 {
