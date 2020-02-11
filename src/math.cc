@@ -8,6 +8,7 @@
 namespace spot::math
 {
 
+
 float radians( const float degrees )
 {
 	return degrees * kPi / 180.0f;
@@ -24,15 +25,15 @@ Size Size::null{};
 
 
 Size::Size()
-    : width{ 0 }
-    , height{ 0 }
+: width{ 0 }
+, height{ 0 }
 {
 }
 
 
 Size::Size( int w, int h )
-    : width{ w }
-    , height{ h }
+: width{ w }
+, height{ h }
 {
 }
 
@@ -84,15 +85,15 @@ Vec2 Vec2::zero{};
 
 
 Vec2::Vec2()
-    : x{ 0.0f }
-    , y{ 0.0f }
+: x{ 0.0f }
+, y{ 0.0f }
 {
 }
 
 
 Vec2::Vec2( const float xx, const float yy )
-    : x{ xx }
-    , y{ yy }
+: x{ xx }
+, y{ yy }
 {
 }
 
@@ -144,9 +145,9 @@ Vec3 Vec3::zero{};
 
 
 Vec3::Vec3( const float xx, const float yy, const float zz )
-    : x{ xx }
-    , y{ yy }
-    , z{ zz }
+: x{ xx }
+, y{ yy }
+, z{ zz }
 {
 }
 
@@ -158,28 +159,28 @@ Vec3::Vec3( const std::vector<float>& v )
 
 
 Vec3::Vec3( const Vec3& other )
-    : x{ other.x }
-    , y{ other.y }
-    , z{ other.z }
+: x{ other.x }
+, y{ other.y }
+, z{ other.z }
 {
 }
 
 
 Vec3::Vec3( Vec3&& other )
-    : x{ other.x }
-    , y{ other.y }
-    , z{ other.z }
+: x{ other.x }
+, y{ other.y }
+, z{ other.z }
 {
 }
 
 
 Vec3 Vec3::cross( const Vec3& a, const Vec3& b )
 {
-	Vec3 result = {};
-	result.x = a.y * b.z - a.z * b.y;
-	result.y = a.z * b.x - a.x * b.z;
-	result.z = a.x * b.y - a.y * b.x;
-	return result;
+	return {
+		a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z,
+		a.x * b.y - a.y * b.x
+	};
 }
 
 
@@ -238,7 +239,7 @@ Vec3 Vec3::operator-( const Vec3& other ) const
 
 Vec3 Vec3::operator-() const
 {
-	return Vec3{ -x, -y, -z };
+	return { -x, -y, -z };
 }
 
 
@@ -277,41 +278,30 @@ Quat::Quat( float ww, float xx, float yy, float zz )
 {
 }
 
+
+// [row][column]
 Quat::Quat( const Mat4& matrix )
 {
-	if ( matrix[2][2] < 0.0f )
+	if ( matrix(0,0) > matrix(1,1) && matrix(0,0) > matrix(2,2) )
 	{
-		if ( matrix[0][0] > matrix[2][2] )
-		{
-			x = 1.0f + matrix[0][0] - matrix[1][1] - matrix[2][2];
-			y = matrix[0][1] + matrix[1][0];
-			z = matrix[2][0] + matrix[0][2];
-			w = matrix[1][2] - matrix[2][1];
-		}
-		else
-		{
-			y = 1.0f - matrix[0][0] + matrix[1][1] - matrix[2][2];
-			x = matrix[0][1] + matrix[1][0];
-			z = matrix[1][2] + matrix[2][1];
-			w = matrix[2][0] - matrix[0][2];
-		}
+		x = matrix(0,0) - matrix(1,1) - matrix(2,2) + 1;
+		y = matrix(0,1) + matrix(1,0);
+		z = matrix(0,2) + matrix(2,0);
+		w = matrix(2,1) - matrix(1,2);
+	}
+	else if ( matrix(1,1) > matrix(0,0) && matrix(1,1) > matrix(2,2) )
+	{
+		y = matrix(1,1) - matrix(0,0) - matrix(2,2) + 1;
+		x = matrix(0,1) + matrix(1,0);
+		z = matrix(2,1) + matrix(1,2);
+		w = matrix(0,2) - matrix(2,0);
 	}
 	else
 	{
-		if ( matrix[0][0] < -matrix[1][1] )
-		{
-			z = 1.0f - matrix[0][0] - matrix[1][1] + matrix[2][2];
-			x = matrix[2][0] + matrix[0][2];
-			y = matrix[1][2] + matrix[2][1];
-			w = matrix[0][1] - matrix[1][0];
-		}
-		else
-		{
-			w = 1.0f + matrix[0][0] + matrix[1][1] + matrix[2][2];
-			x = matrix[1][2] - matrix[2][1];
-			y = matrix[2][0] - matrix[0][2];
-			z = matrix[0][1] - matrix[1][0];
-		}
+		z = matrix(2,2) - matrix(1,1) - matrix(0,0) + 1;
+		x = matrix(0,2) + matrix(2,0);
+		y = matrix(2,1) + matrix(1,2);
+		w = matrix(1,0) - matrix(0,1);
 	}
 
 	normalize();
@@ -422,7 +412,7 @@ Mat4::Mat4()
 
 Mat4::Mat4( std::initializer_list<float> list )
 {
-	int i{ 0 };
+	size_t i = 0;
 	for ( float value : list )
 	{
 		matrix[i++] = value;
@@ -436,7 +426,7 @@ Mat4::Mat4( std::initializer_list<float> list )
 
 Mat4::Mat4( const float* const m )
 {
-	for ( int i{ 0 }; i < 16; ++i )
+	for ( size_t i = 0; i < 16; ++i )
 	{
 		matrix[i] = m[i];
 	}
@@ -445,23 +435,23 @@ Mat4::Mat4( const float* const m )
 
 Mat4::Mat4( const Quat& q )
 {
-	float s{ 2.0f / ( q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w ) };
+	float s = 2.0f / ( q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w );
 
-	float xs{ s * q.x };
-	float ys{ s * q.y };
-	float zs{ s * q.z };
+	float xs = s * q.x;
+	float ys = s * q.y;
+	float zs = s * q.z;
 
-	float wx{ q.w * xs };
-	float wy{ q.w * ys };
-	float wz{ q.w * zs };
+	float wx = q.w * xs;
+	float wy = q.w * ys;
+	float wz = q.w * zs;
 
-	float xx{ q.x * xs };
-	float xy{ q.x * ys };
-	float xz{ q.x * zs };
+	float xx = q.x * xs;
+	float xy = q.x * ys;
+	float xz = q.x * zs;
 
-	float yy{ q.y * ys };
-	float yz{ q.y * zs };
-	float zz{ q.z * zs };
+	float yy = q.y * ys;
+	float yz = q.y * zs;
+	float zz = q.z * zs;
 
 	matrix[0]  = 1.0f - ( yy + zz );
 	matrix[4]  = xy - wz;
@@ -487,35 +477,50 @@ Mat4::Mat4( const Quat& q )
 
 float& Mat4::operator()( const size_t index )
 {
-	assert( index < 16 && "Index out of bound" );
+	assert( index < 16 && "Index out of bounds" );
 	return matrix[index];
 }
 
 
 const float& Mat4::operator()( const size_t index ) const
 {
-	assert( index < 16 && "Index out of bound" );
+	assert( index < 16 && "Index out of bounds" );
 	return matrix[index];
 }
 
 
+float& Mat4::operator()( const size_t row, const size_t column )
+{
+	assert( row < 4 && column < 4 && "Row or column out of bounds" );
+	return matrix[row + 4 * column];
+}
+
+
+const float& Mat4::operator()( const size_t row, const size_t column ) const
+{
+	assert( row < 4 && column < 4 && "Row or column out of bounds" );
+	return matrix[row + 4 * column];
+}
+
+
+
 const float* Mat4::operator[]( const size_t index ) const
 {
-	assert( index < 4 && "Index out of bound" );
+	assert( index < 4 && "Index out of bounds" );
 	return matrix + ( index * 4 );
 }
 
 
 float* Mat4::operator[]( const size_t index )
 {
-	assert( index < 4 && "Index out of bound" );
+	assert( index < 4 && "Index out of bounds" );
 	return matrix + ( index * 4 );
 }
 
 
 Mat4& Mat4::operator=( const Mat4& other )
 {
-	for ( int i{ 0 }; i < 16; ++i )
+	for ( size_t i = 0; i < 16; ++i )
 	{
 		matrix[i] = other.matrix[i];
 	}
@@ -525,7 +530,7 @@ Mat4& Mat4::operator=( const Mat4& other )
 
 Mat4& Mat4::operator+=( const Mat4& other )
 {
-	for ( int i{ 0 }; i < 16; ++i )
+	for ( size_t i = 0; i < 16; ++i )
 	{
 		matrix[i] += other.matrix[i];
 	}
@@ -666,7 +671,7 @@ void Mat4::rotate( const Quat& q )
 	zz = q.z * q.z;
 	zw = q.z * q.w;
 
-	Mat4 rot{
+	Mat4 rot {
 		1.0f - 2.0f * ( yy + zz ),
 		2.0f * ( xy - zw ),
 		2.0f * ( xz + yw ),
@@ -706,7 +711,11 @@ void Mat4::rotateY( const float radians )
 {
 	float cosrad = std::cos( radians );
 	float sinrad = std::sin( radians );
-	Mat4 rotation{ cosrad, 0.0f, -sinrad, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, sinrad, 0.0f, cosrad, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
+	Mat4 rotation {
+		cosrad, 0.0f, -sinrad, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		sinrad, 0.0f, cosrad, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f };
 	*this = rotation * *this;
 }
 
@@ -728,10 +737,10 @@ Rectangle Rectangle::zero{};
 
 
 Rectangle::Rectangle()
-    : x{ 0.0f }
-    , y{ 0.0f }
-    , width{ 0.0f }
-    , height{ 0.0f }
+: x{ 0.0f }
+, y{ 0.0f }
+, width{ 0.0f }
+, height{ 0.0f }
 {
 }
 

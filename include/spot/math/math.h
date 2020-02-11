@@ -145,10 +145,12 @@ class Mat4
 	Mat4( const float* const m );
 	Mat4( const Quat& quat );
 
-	float&       operator()( const size_t index );
-	const float& operator()( const size_t index ) const;
-	const float* operator[]( const size_t index ) const;
-	float* operator[]( const size_t index );
+	float&       operator()( size_t index );
+	const float& operator()( size_t index ) const;
+	float&       operator()( size_t row, size_t column );
+	const float& operator()( size_t row, size_t column ) const;
+	const float* operator[]( size_t index ) const;
+	float* operator[]( size_t index );
 	Mat4&        operator=( const Mat4& matrix );
 	Mat4&        operator+=( const Mat4& matrix );
 	const Mat4   operator+( const Mat4& other ) const;
@@ -159,19 +161,19 @@ class Mat4
 	const bool operator==( const Mat4& other ) const;
 
 	void translate( const Vec3& vec );
-	void translateX( const float amount );
-	void translateY( const float amount );
-	void translateZ( const float amount );
+	void translateX( float amount );
+	void translateY( float amount );
+	void translateZ( float amount );
 
 	void scale( const Vec3& scale );
-	void scaleX( const float scale );
-	void scaleY( const float scale );
-	void scaleZ( const float scale );
+	void scaleX( float scale );
+	void scaleY( float scale );
+	void scaleZ( float scale );
 
 	void rotate( const Quat& quat );
-	void rotateX( const float radians );
-	void rotateY( const float radians );
-	void rotateZ( const float radians );
+	void rotateX( float radians );
+	void rotateY( float radians );
+	void rotateZ( float radians );
 
 	float matrix[16];
 };
