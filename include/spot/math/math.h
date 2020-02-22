@@ -112,7 +112,15 @@ class Quat
 
 	Quat( const Mat4& m );
 
+	/// @brief Constructs a quaternion from an axis
+	/// and an angle of rotation around that axis
+	Quat( const Vec3& axis, float angle );
+
 	void normalize();
+
+	/// @brief A multiplication of two quaternions is
+	/// just the composition of the two quaternions
+	Quat& operator*=( const Quat& other );
 
 	Quat operator-() const;
 

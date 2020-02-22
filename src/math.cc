@@ -308,6 +308,30 @@ Quat::Quat( const Mat4& matrix )
 }
 
 
+Quat::Quat( const Vec3& axis, const float angle )
+{
+	auto factor = sinf( angle / 2.0f );
+
+	x = axis.x * factor;
+	y = axis.y * factor;
+	z = axis.z * factor;
+	w = cosf( angle / 2.0f );
+
+	normalize();
+}
+
+
+Quat& Quat::operator*=( const Quat& q )
+{
+	w = w * q.w - x * q.x - y * q.y - z * q.z;
+	x = w * q.x + x * q.w - y * q.z + z * q.y;
+	y = w * q.y + x * q.z + y * q.w - z * q.x;
+	z = w * q.z - x * q.y + y * q.x + z * q.w;
+	normalize();
+	return *this;
+}
+
+
 Quat operator*( const float t, const Quat& q )
 {
 	return { t * q.w, t * q.x, t * q.y, t * q.z };
