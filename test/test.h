@@ -1,8 +1,2 @@
-#include <cstdlib>
-
-#ifdef NDEBUG
-#undef NDEBUG
-#endif // NDEBUG
-#include <cassert>
-
+#include <catch2/catch.hpp>
 #include <spot/math/math.h>

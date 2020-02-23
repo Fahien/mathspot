@@ -267,7 +267,7 @@ std::ostream& operator<<( std::ostream& os, const Vec3& v )
 }
 
 
-Quat Quat::identity = { 1.0f, 0.0f, 0.0f, 0.0f };
+const Quat Quat::identity = { 1.0f, 0.0f, 0.0f, 0.0f };
 
 
 Quat::Quat( float ww, float xx, float yy, float zz )
@@ -282,26 +282,41 @@ Quat::Quat( float ww, float xx, float yy, float zz )
 // [row][column]
 Quat::Quat( const Mat4& matrix )
 {
-	if ( matrix(0,0) > matrix(1,1) && matrix(0,0) > matrix(2,2) )
+	float t = matrix(0,0) + matrix(1,1) + matrix(2,2);
+	if ( t > 0.0f )
 	{
-		x = matrix(0,0) - matrix(1,1) - matrix(2,2) + 1;
-		y = matrix(0,1) + matrix(1,0);
-		z = matrix(0,2) + matrix(2,0);
-		w = matrix(2,1) - matrix(1,2);
-	}
-	else if ( matrix(1,1) > matrix(0,0) && matrix(1,1) > matrix(2,2) )
-	{
-		y = matrix(1,1) - matrix(0,0) - matrix(2,2) + 1;
-		x = matrix(0,1) + matrix(1,0);
-		z = matrix(2,1) + matrix(1,2);
-		w = matrix(0,2) - matrix(2,0);
+		float s = 0.5f / sqrtf( t + 1.0f );
+		w = 0.25f / s;
+		x = ( matrix(2,1) - matrix(1,2) ) * s;
+		y = ( matrix(0,2) - matrix(2,0) ) * s;
+		z = ( matrix(1,0) - matrix(0,1) ) * s;
 	}
 	else
 	{
-		z = matrix(2,2) - matrix(1,1) - matrix(0,0) + 1;
-		x = matrix(0,2) + matrix(2,0);
-		y = matrix(2,1) + matrix(1,2);
-		w = matrix(1,0) - matrix(0,1);
+		if ( matrix(0,0) > matrix(1,1) && matrix(0,0) > matrix(2,2) )
+		{
+			float s = 2.0f * sqrtf( 1.0f + matrix(0,0) - matrix(1,1) - matrix(2,2));
+			w = (matrix(2,1) - matrix(1,2) ) / s;
+			x = 0.25f * s;
+			y = (matrix(0,1) + matrix(1,0) ) / s;
+			z = (matrix(0,2) + matrix(2,0) ) / s;
+		}
+		else if (matrix(1,1) > matrix(2,2))
+		{
+			float s = 2.0f * sqrtf( 1.0f + matrix(1,1) - matrix(0,0) - matrix(2,2));
+			w = (matrix(0,2) - matrix(2,0) ) / s;
+			x = (matrix(0,1) + matrix(1,0) ) / s;
+			y = 0.25f * s;
+			z = (matrix(1,2) + matrix(2,1) ) / s;
+		}
+		else
+		{
+			float s = 2.0f * sqrtf( 1.0f + matrix(2,2) - matrix(0,0) - matrix(1,1) );
+			w = (matrix(1,0) - matrix(0,1) ) / s;
+			x = (matrix(0,2) + matrix(2,0) ) / s;
+			y = (matrix(1,2) + matrix(2,1) ) / s;
+			z = 0.25f * s;
+		}
 	}
 
 	normalize();
@@ -320,6 +335,11 @@ Quat::Quat( const Vec3& axis, const float angle )
 	normalize();
 }
 
+
+bool Quat::operator==( const Quat& q ) const
+{
+	return w == q.w && x == q.x && y == q.y && z == q.z;
+}
 
 Quat& Quat::operator*=( const Quat& q )
 {
@@ -422,10 +442,15 @@ Quat slerp( Quat a, Quat b, const float t )
 }
 
 
-Mat4 Mat4::zero{};
+const Mat4 Mat4::zero = {};
 
 
-Mat4 Mat4::identity{ 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
+const Mat4 Mat4::identity = {
+	1.0f, 0.0f, 0.0f, 0.0f,
+	0.0f, 1.0f, 0.0f, 0.0f,
+	0.0f, 0.0f, 1.0f, 0.0f,
+	0.0f, 0.0f, 0.0f, 1.0f
+};
 
 
 Mat4::Mat4()
@@ -562,7 +587,7 @@ Mat4& Mat4::operator+=( const Mat4& other )
 }
 
 
-const Mat4 Mat4::operator+( const Mat4& other ) const
+Mat4 Mat4::operator+( const Mat4& other ) const
 {
 	Mat4 result = *this;
 	return result += other;
@@ -588,7 +613,7 @@ Mat4& Mat4::operator*=( const Mat4& other )
 }
 
 
-const Mat4 Mat4::operator*( const Mat4& other ) const
+Mat4 Mat4::operator*( const Mat4& other ) const
 {
 	Mat4 result = *this;
 	return result *= other;
@@ -614,9 +639,9 @@ Vec3 Mat4::operator*( const Vec3& v ) const
 }
 
 
-const bool Mat4::operator==( const Mat4& other ) const
+bool Mat4::operator==( const Mat4& other ) const
 {
-	for ( unsigned i{ 0 }; i < 16; ++i )
+	for ( auto i = 0; i < 16; ++i )
 	{
 		if ( matrix[i] != other.matrix[i] )
 		{
@@ -658,6 +683,14 @@ void Mat4::scale( const Vec3& scale )
 	matrix[0]  = scale.x;
 	matrix[5]  = scale.y;
 	matrix[10] = scale.z;
+}
+
+
+Mat4 Mat4::scale( const Vec3& scale ) const
+{
+	auto ret = *this;
+	ret.scale( scale );
+	return ret;
 }
 
 

@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.15 )
 project( mathspot
-	VERSION 0.4
+	VERSION 0.5
 	LANGUAGES C CXX
 )
 
@@ -20,25 +20,25 @@ add_library(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${MST_INCLUDE_DIR})
 
 # Test
-set(MST_TEST_DIR ${PROJECT_SOURCE_DIR}/test)
+find_package(Catch2 REQUIRED)
+set(MST_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/test)
 
-function(make_test TEST_NAME)
-	# Sources
-	set(TEST_SOURCES ${MST_TEST_DIR}/${TEST_NAME}.cpp)
-	source_group(${TEST_NAME} FILES ${TEST_SOURCES})
+# Sources
+set(TEST_SOURCES
+	${MST_TEST_DIR}/main-test.cc
+	${MST_TEST_DIR}/size-test.cc
+	${MST_TEST_DIR}/vec2-test.cc
+	${MST_TEST_DIR}/vec3-test.cc
+	${MST_TEST_DIR}/mat4-test.cc
+	${MST_TEST_DIR}/quat-test.cc
+	${MST_TEST_DIR}/rectangle-test.cc
+	${MST_TEST_DIR}/misc-test.cc)
+source_group(test FILES ${TEST_SOURCES})
 
-	# Executable
-	add_executable(${TEST_NAME} ${TEST_SOURCES})
-	target_include_directories(${TEST_NAME} PRIVATE ${MST_INCLUDE_DIR})
-	target_link_libraries(${TEST_NAME} ${PROJECT_NAME})
-	add_test(${TEST_NAME} ${EXECUTABLE_OUTPUT_PATH}/${TEST_NAME})
-endfunction(make_test)
-
-make_test(size-test)
-make_test(vec2-test)
-make_test(vec3-test)
-make_test(mat4-test)
-make_test(rectangle-test)
-make_test(misc-test)
+# Executable
+add_executable(${PROJECT_NAME}-tests ${TEST_SOURCES})
+target_link_libraries(${PROJECT_NAME}-tests Catch2::Catch2 ${PROJECT_NAME})
 
 include(CTest)
+include(Catch)
+catch_discover_tests(${PROJECT_NAME}-tests)

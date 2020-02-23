@@ -106,7 +106,7 @@ class Mat4;
 class Quat
 {
   public:
-	static Quat identity;
+	static const Quat identity;
 
 	Quat( float w = 0.0f, float x = 0.0f, float y = 0.0f, float z = 0.0f );
 
@@ -118,6 +118,8 @@ class Quat
 
 	void normalize();
 
+	bool operator==( const Quat& other ) const;
+
 	/// @brief A multiplication of two quaternions is
 	/// just the composition of the two quaternions
 	Quat& operator*=( const Quat& other );
@@ -127,10 +129,10 @@ class Quat
 	Quat operator+( const Quat& other ) const;
 	Quat operator-( const Quat& other ) const;
 
-	float w;
-	float x;
-	float y;
-	float z;
+	float w = 0.0f;
+	float x = 0.0f;
+	float y = 0.0f;
+	float z = 0.0f;
 };
 
 Quat operator*( float c, const Quat& q );
@@ -145,8 +147,8 @@ Quat slerp( Quat a, Quat b, float t );
 class Mat4
 {
   public:
-	static Mat4 zero;
-	static Mat4 identity;
+	static const Mat4 zero;
+	static const Mat4 identity;
 
 	Mat4();
 	Mat4( std::initializer_list<float> l );
@@ -161,12 +163,12 @@ class Mat4
 	float* operator[]( size_t index );
 	Mat4&        operator=( const Mat4& matrix );
 	Mat4&        operator+=( const Mat4& matrix );
-	const Mat4   operator+( const Mat4& other ) const;
+	Mat4   operator+( const Mat4& other ) const;
 	Mat4&        operator*=( const Mat4& matrix );
-	const Mat4   operator*( const Mat4& other ) const;
+	Mat4   operator*( const Mat4& other ) const;
 	Vec3 operator*( const Vec3& v ) const;
 
-	const bool operator==( const Mat4& other ) const;
+	bool operator==( const Mat4& other ) const;
 
 	void translate( const Vec3& vec );
 	void translateX( float amount );
@@ -174,6 +176,7 @@ class Mat4
 	void translateZ( float amount );
 
 	void scale( const Vec3& scale );
+	Mat4 scale( const Vec3& scale ) const;
 	void scaleX( float scale );
 	void scaleY( float scale );
 	void scaleZ( float scale );

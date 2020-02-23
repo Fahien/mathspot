@@ -4,9 +4,12 @@ on: [push]
 jobs:
   build:
     name: build
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
+
+      - name: dep
+        run: brew install catch2
 
       - name: gen
         run: cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Debug
