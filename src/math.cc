@@ -552,7 +552,6 @@ const float& Mat4::operator()( const size_t row, const size_t column ) const
 }
 
 
-
 const float* Mat4::operator[]( const size_t index ) const
 {
 	assert( index < 4 && "Index out of bounds" );
@@ -641,9 +640,10 @@ Vec3 Mat4::operator*( const Vec3& v ) const
 
 bool Mat4::operator==( const Mat4& other ) const
 {
+	constexpr auto epsilon = 1.0f;
 	for ( auto i = 0; i < 16; ++i )
 	{
-		if ( matrix[i] != other.matrix[i] )
+		if ( std::fabs( matrix[i] - other.matrix[i] ) > epsilon )
 		{
 			return false;
 		}
@@ -677,20 +677,43 @@ void Mat4::translateZ( const float amount )
 	matrix[14] += amount;
 }
 
+Mat4 Mat4::translate( const Vec3& vec ) const
+{
+	Mat4 ret = *this;
+	ret.translate( vec );
+	return ret;
+}
+
+
+Mat4 Mat4::translateX( const float amount ) const
+{
+	Mat4 ret = *this;
+	ret.translateX( amount );
+	return ret;
+}
+
+
+Mat4 Mat4::translateY( const float amount ) const
+{
+	Mat4 ret = *this;
+	ret.translateY( amount );
+	return ret;
+}
+
+
+Mat4 Mat4::translateZ( const float amount ) const
+{
+	Mat4 ret = *this;
+	ret.translateZ( amount );
+	return ret;
+}
+
 
 void Mat4::scale( const Vec3& scale )
 {
 	matrix[0]  = scale.x;
 	matrix[5]  = scale.y;
 	matrix[10] = scale.z;
-}
-
-
-Mat4 Mat4::scale( const Vec3& scale ) const
-{
-	auto ret = *this;
-	ret.scale( scale );
-	return ret;
 }
 
 
@@ -709,6 +732,38 @@ void Mat4::scaleY( const float scale )
 void Mat4::scaleZ( const float scale )
 {
 	matrix[10] = scale;
+}
+
+
+Mat4 Mat4::scale( const Vec3& scale ) const
+{
+	auto ret = *this;
+	ret.scale( scale );
+	return ret;
+}
+
+
+Mat4 Mat4::scaleX( const float amount ) const
+{
+	auto ret = *this;
+	ret.scaleX( amount );
+	return ret;
+}
+
+
+Mat4 Mat4::scaleY( const float amount ) const
+{
+	auto ret = *this;
+	ret.scaleY( amount );
+	return ret;
+}
+
+
+Mat4 Mat4::scaleZ( const float amount ) const
+{
+	auto ret = *this;
+	ret.scaleZ( amount );
+	return ret;
 }
 
 
@@ -787,6 +842,38 @@ void Mat4::rotateZ( const float radians )
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f };
 	*this = rotation * *this;
+}
+
+
+Mat4 Mat4::rotate( const Quat& q ) const
+{
+	Mat4 ret = *this;
+	ret.rotate( q );
+	return ret;
+}
+
+
+Mat4 Mat4::rotateX( const float radians ) const
+{
+	Mat4 ret = *this;
+	ret.rotateX( radians );
+	return ret;
+}
+
+
+Mat4 Mat4::rotateY( const float radians ) const
+{
+	Mat4 ret = *this;
+	ret.rotateY( radians );
+	return ret;
+}
+
+
+Mat4 Mat4::rotateZ( const float radians ) const
+{
+	Mat4 ret = *this;
+	ret.rotate( radians );
+	return ret;
 }
 
 

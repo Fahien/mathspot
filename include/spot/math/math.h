@@ -175,16 +175,30 @@ class Mat4
 	void translateY( float amount );
 	void translateZ( float amount );
 
+	Mat4 translate( const Vec3& vec ) const;
+	Mat4 translateX( float amount ) const;
+	Mat4 translateY( float amount ) const;
+	Mat4 translateZ( float amount ) const;
+
 	void scale( const Vec3& scale );
-	Mat4 scale( const Vec3& scale ) const;
 	void scaleX( float scale );
 	void scaleY( float scale );
 	void scaleZ( float scale );
+
+	Mat4 scale( const Vec3& scale ) const;
+	Mat4 scaleX( float scale ) const;
+	Mat4 scaleY( float scale ) const;
+	Mat4 scaleZ( float scale ) const;
 
 	void rotate( const Quat& quat );
 	void rotateX( float radians );
 	void rotateY( float radians );
 	void rotateZ( float radians );
+
+	Mat4 rotate( const Quat& quat ) const;
+	Mat4 rotateX( float radians ) const;
+	Mat4 rotateY( float radians ) const;
+	Mat4 rotateZ( float radians ) const;
 
 	float matrix[16];
 };
