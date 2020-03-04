@@ -1,5 +1,22 @@
 #include "test.h"
 
+namespace mth = spot::math;
+
+
+bool equals( const mth::Mat4& a, const mth::Mat4& b )
+{
+	for ( size_t i = 0; i < 16; ++i )
+	{
+		auto target = Approx( a.matrix[i] ).margin( std::numeric_limits<float>::epsilon() * 2.0f );
+		if ( b.matrix[i] != target )
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 
 TEST_CASE( "Mat4" )
 {
@@ -37,19 +54,30 @@ TEST_CASE( "Mat4" )
 
 	SECTION( "rotate" )
 	{
-		auto base = Mat4{
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, -1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
-		};
-
-		auto rot = Mat4::identity.rotateX( radians( 90.0f ) );
-
-		for ( size_t i = 0; i < 16; ++i )
+		SECTION( "x" )
 		{
-			auto target = Approx( base.matrix[i] ).margin( std::numeric_limits<float>::epsilon() );
-			REQUIRE( rot.matrix[i] == target );
+			auto base = Mat4{
+				1.0f, 0.0f, 0.0f, 0.0f,
+				0.0f, 0.0f, 1.0f, 0.0f,
+				0.0f, -1.0f, 0.0f, 0.0f,
+				0.0f, 0.0f, 0.0f, 1.0f
+			};
+
+			auto rot = Mat4::identity.rotateX( radians( 90.0f ) );
+			REQUIRE( equals( base, rot ) );
+
+			auto double_rot = Mat4::identity.rotateX( radians( 450.0f ) );
+			REQUIRE( equals( base, double_rot ) );
+
+			base = Mat4{
+				1.0f, 0.0f, 0.0f, 0.0f,
+				0.0f, 0.7071068f, 0.7071068f, 0.0f,
+				0.0f, -0.7071068f, 0.7071068f, 0.0f,
+				0.0f, 0.0f, 0.0f, 1.0f
+			};
+
+			rot = Mat4::identity.rotateX( radians( 45.0f ) );
+			REQUIRE( equals( base, rot ) );
 		}
 	}
 
