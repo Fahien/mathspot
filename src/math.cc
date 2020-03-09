@@ -785,21 +785,24 @@ void Mat4::rotate( const Quat& q )
 
 	Mat4 rot {
 		1.0f - 2.0f * ( yy + zz ),
-		2.0f * ( xy - zw ),
-		2.0f * ( xz + yw ),
-		0.0f,  // row1
 		2.0f * ( xy + zw ),
-		1.0f - 2.0f * ( xx + zz ),
-		2.0f * ( yz - xw ),
-		0.0f,  // row2
 		2.0f * ( xz - yw ),
+		0.0f,
+
+		2.0f * ( xy - zw ),
+		1.0f - 2.0f * ( xx + zz ),
 		2.0f * ( yz + xw ),
+		0.0f,
+
+		2.0f * ( xz + yw ),
+		2.0f * ( yz - xw ),
 		1.0f - 2.0f * ( xx + yy ),
-		0.0f,  // row3
+		0.0f,
+
 		0.0f,
 		0.0f,
 		0.0f,
-		1.0f,  // row4
+		1.0f,
 	};
 
 	*this = rot * *this;
@@ -872,7 +875,7 @@ Mat4 Mat4::rotateY( const float radians ) const
 Mat4 Mat4::rotateZ( const float radians ) const
 {
 	Mat4 ret = *this;
-	ret.rotate( radians );
+	ret.rotateZ( radians );
 	return ret;
 }
 

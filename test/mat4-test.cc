@@ -2,6 +2,8 @@
 
 namespace mth = spot::math;
 
+namespace spot
+{
 
 bool equals( const mth::Mat4& a, const mth::Mat4& b )
 {
@@ -66,7 +68,7 @@ TEST_CASE( "Mat4" )
 			auto rot = Mat4::identity.rotateX( radians( 90.0f ) );
 			REQUIRE( equals( base, rot ) );
 
-			auto double_rot = Mat4::identity.rotateX( radians( 450.0f ) );
+			auto double_rot = Mat4::identity.rotateX( radians( 360.0f + 90.0f ) );
 			REQUIRE( equals( base, double_rot ) );
 
 			base = Mat4{
@@ -93,3 +95,5 @@ TEST_CASE( "Mat4" )
 		REQUIRE( tr == Mat4::identity.translate( { 2.0f, 3.0f, 4.0f } ) );
 	}
 }
+
+} // namespace spot
