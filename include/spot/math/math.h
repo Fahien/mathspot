@@ -74,7 +74,9 @@ class Vec3
 	static const Vec3 Y;
 	static const Vec3 Z;
 
-	constexpr Vec3( float xx = 0.0f, float yy = 0.0f, float zz = 0.0f );
+	constexpr Vec3( float xx = 0.0f, float yy = 0.0f, float zz = 0.0f )
+	: x { xx }, y { yy }, z{ zz }
+	{}
 
 	static Vec3 cross( const Vec3& a, const Vec3& b );
 	static float dot( const Vec3& a, const Vec3& b );

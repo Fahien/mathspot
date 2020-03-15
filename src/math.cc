@@ -147,14 +147,6 @@ const Vec3 Vec3::Y = { 0.0f, 1.0f, 0.0f };
 const Vec3 Vec3::Z = { 0.0f, 0.0f, 1.0f };
 
 
-constexpr Vec3::Vec3( const float xx, const float yy, const float zz )
-: x{ xx }
-, y{ yy }
-, z{ zz }
-{
-}
-
-
 Vec3 Vec3::cross( const Vec3& a, const Vec3& b )
 {
 	return {
