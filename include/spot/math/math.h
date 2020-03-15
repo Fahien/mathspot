@@ -69,30 +69,29 @@ class Vec2
 class Vec3
 {
   public:
-	static Vec3 zero;
+	static const Vec3 Zero;
+	static const Vec3 X;
+	static const Vec3 Y;
+	static const Vec3 Z;
 
-	Vec3( const float xx = 0.0f, const float yy = 0.0f, const float zz = 0.0f );
-	Vec3( const std::vector<float>& v );
-	Vec3( const Vec3& other );
-	Vec3( Vec3&& other );
+	constexpr Vec3( float xx = 0.0f, float yy = 0.0f, float zz = 0.0f );
 
 	static Vec3 cross( const Vec3& a, const Vec3& b );
 	static float dot( const Vec3& a, const Vec3& b );
 
-	void set( const float xx, const float yy, const float zz );
+	void set( float xx, float yy, float zz );
 	void normalize();
 
-	Vec3& operator=( const Vec3& other );
 	Vec3& operator+=( const Vec3& other );
-	Vec3  operator+( const Vec3& other ) const;
-	Vec3  operator-( const Vec3& other ) const;
-	Vec3  operator-() const;
+	Vec3 operator+( const Vec3& other ) const;
+	Vec3 operator-( const Vec3& other ) const;
+	Vec3 operator-() const;
 
-	const bool operator==( const Vec3& other ) const;
+	bool operator==( const Vec3& other ) const;
 
-	float x;
-	float y;
-	float z;
+	float x = 0.0f;
+	float y = 0.0f;
+	float z = 0.0f;
 };
 
 Vec3 operator*( float c, const Vec3& v );
@@ -126,6 +125,7 @@ class Quat
 
 	Quat operator-() const;
 
+	Quat& operator+=( const Quat& other );
 	Quat operator+( const Quat& other ) const;
 	Quat operator-( const Quat& other ) const;
 

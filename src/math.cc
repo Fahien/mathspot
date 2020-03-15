@@ -141,35 +141,16 @@ std::ostream& operator<<( std::ostream& os, const Vec2& v )
 }
 
 
-Vec3 Vec3::zero{};
+const Vec3 Vec3::Zero = {};
+const Vec3 Vec3::X = { 1.0f, 0.0f, 0.0f };
+const Vec3 Vec3::Y = { 0.0f, 1.0f, 0.0f };
+const Vec3 Vec3::Z = { 0.0f, 0.0f, 1.0f };
 
 
-Vec3::Vec3( const float xx, const float yy, const float zz )
+constexpr Vec3::Vec3( const float xx, const float yy, const float zz )
 : x{ xx }
 , y{ yy }
 , z{ zz }
-{
-}
-
-
-Vec3::Vec3( const std::vector<float>& v )
-    : Vec3{ v.at( 0 ), v.at( 1 ), v.at( 2 ) }
-{
-}
-
-
-Vec3::Vec3( const Vec3& other )
-: x{ other.x }
-, y{ other.y }
-, z{ other.z }
-{
-}
-
-
-Vec3::Vec3( Vec3&& other )
-: x{ other.x }
-, y{ other.y }
-, z{ other.z }
 {
 }
 
@@ -207,15 +188,6 @@ void Vec3::normalize()
 }
 
 
-Vec3& Vec3::operator=( const Vec3& other )
-{
-	x = other.x;
-	y = other.y;
-	z = other.z;
-	return *this;
-}
-
-
 Vec3& Vec3::operator+=( const Vec3& other )
 {
 	x += other.x;
@@ -243,7 +215,7 @@ Vec3 Vec3::operator-() const
 }
 
 
-const bool Vec3::operator==( const Vec3& other ) const
+bool Vec3::operator==( const Vec3& other ) const
 {
 	return x == other.x && y == other.y && z == other.z;
 }
@@ -343,10 +315,14 @@ bool Quat::operator==( const Quat& q ) const
 
 Quat& Quat::operator*=( const Quat& q )
 {
-	w = w * q.w - x * q.x - y * q.y - z * q.z;
-	x = w * q.x + x * q.w - y * q.z + z * q.y;
-	y = w * q.y + x * q.z + y * q.w - z * q.x;
-	z = w * q.z - x * q.y + y * q.x + z * q.w;
+	auto ww = w * q.w - x * q.x - y * q.y - z * q.z;
+	auto xx = w * q.x + x * q.w + y * q.z - z * q.y;
+	auto yy = w * q.y - x * q.z + y * q.w + z * q.x;
+	auto zz = w * q.z + x * q.y - y * q.x + z * q.w;
+	w = ww;
+	x = xx;
+	y = yy;
+	z = zz;
 	normalize();
 	return *this;
 }
@@ -364,9 +340,21 @@ Quat Quat::operator-() const
 }
 
 
+Quat& Quat::operator+=( const Quat& o )
+{
+	w += o.w;
+	x += o.x;
+	y += o.y;
+	z += o.z;
+	normalize();
+	return *this;
+}
+
+
 Quat Quat::operator+( const Quat& o ) const
 {
-	return { w + o.w, x + o.x, y + o.y, z + o.z };
+	Quat ret = *this;
+	return ret += o;
 }
 
 

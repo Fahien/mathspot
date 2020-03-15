@@ -3,6 +3,23 @@
 namespace spot
 {
 
+
+bool equals( const float a, const float b )
+{
+		auto target = Approx( a ).margin( std::numeric_limits<float>::epsilon() * 2.0f );
+		return b == target;
+}
+
+
+bool equals( const math::Quat& a, const math::Quat& b )
+{
+	return equals( a.w, b.w ) &&
+		equals( a.x, b.x ) &&
+		equals( a.y, b.y ) &&
+		equals( a.z, b.z );
+}
+
+
 TEST_CASE( "Quat" )
 {
 	using namespace spot::math;
@@ -14,6 +31,18 @@ TEST_CASE( "Quat" )
 		REQUIRE( q.x == 0.0f );
 		REQUIRE( q.y == 0.0f );
 		REQUIRE( q.z == 0.0f );
+	}
+
+	SECTION( "from-axis-angle" )
+	{
+		auto q = Quat::identity;
+		auto angle = radians( 90.0f );
+
+		q *= Quat( Vec3::Z, radians( 90.0f ) );
+
+		auto expected = Quat( Mat4::identity.rotateZ( angle ) );
+
+		REQUIRE( equals( q, expected ) );
 	}
 
 	SECTION( "from-matrix" )
