@@ -89,6 +89,9 @@ class Vec3
 	Vec3 operator-( const Vec3& other ) const;
 	Vec3 operator-() const;
 
+	Vec3& operator*=( float k );
+	Vec3 operator*( float k ) const;
+
 	bool operator==( const Vec3& other ) const;
 
 	float x = 0.0f;

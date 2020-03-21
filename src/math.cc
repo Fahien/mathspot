@@ -207,6 +207,22 @@ Vec3 Vec3::operator-() const
 }
 
 
+Vec3& Vec3::operator*=( const float k )
+{
+	x *= k;
+	y *= k;
+	z *= k;
+	return *this;
+}
+
+
+Vec3 Vec3::operator*( const float k ) const
+{
+	Vec3 ret = *this;
+	return ret *= k;
+}
+
+
 bool Vec3::operator==( const Vec3& other ) const
 {
 	return x == other.x && y == other.y && z == other.z;
