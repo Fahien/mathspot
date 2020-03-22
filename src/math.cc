@@ -142,6 +142,7 @@ std::ostream& operator<<( std::ostream& os, const Vec2& v )
 
 
 const Vec3 Vec3::Zero = {};
+const Vec3 Vec3::One = { 1.0f, 1.0f, 1.0f };
 const Vec3 Vec3::X = { 1.0f, 0.0f, 0.0f };
 const Vec3 Vec3::Y = { 0.0f, 1.0f, 0.0f };
 const Vec3 Vec3::Z = { 0.0f, 0.0f, 1.0f };

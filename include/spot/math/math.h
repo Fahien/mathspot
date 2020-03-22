@@ -70,6 +70,7 @@ class Vec3
 {
   public:
 	static const Vec3 Zero;
+	static const Vec3 One;
 	static const Vec3 X;
 	static const Vec3 Y;
 	static const Vec3 Z;
