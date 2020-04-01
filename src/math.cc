@@ -355,7 +355,6 @@ Quat& Quat::operator+=( const Quat& o )
 	x += o.x;
 	y += o.y;
 	z += o.z;
-	normalize();
 	return *this;
 }
 
@@ -369,7 +368,7 @@ Quat Quat::operator+( const Quat& o ) const
 
 Quat Quat::operator-( const Quat& o ) const
 {
-	return { -o.w, -o.y, -o.z, o.x };
+	return { o.w, -o.x, -o.y, -o.z };
 }
 
 
