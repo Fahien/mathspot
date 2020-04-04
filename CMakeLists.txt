@@ -51,5 +51,5 @@ add_executable( ${PROJECT_NAME}-tests ${TEST_SOURCES} )
 target_link_libraries( ${PROJECT_NAME}-tests CONAN_PKG::catch2 ${PROJECT_NAME} )
 
 include( CTest )
-include( Catch )
-catch_discover_tests( ${PROJECT_NAME}-tests )
+#include( Catch )
+#catch_discover_tests( ${PROJECT_NAME}-tests )
