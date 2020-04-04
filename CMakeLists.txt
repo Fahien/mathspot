@@ -4,6 +4,21 @@ project( mathspot
 	LANGUAGES C CXX
 )
 
+# Conan
+# Download automatically, you can also just copy the conan.cmake file
+if( NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake" )
+	message( STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan" )
+	file( DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.15/conan.cmake"
+		"${CMAKE_BINARY_DIR}/conan.cmake" )
+endif()
+
+include( ${CMAKE_BINARY_DIR}/conan.cmake )
+
+conan_cmake_run(
+	REQUIRES catch2/2.11.3
+	BASIC_SETUP CMAKE_TARGETS
+	BUILD missing )
+
 # Includes
 set(MST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
@@ -20,7 +35,6 @@ add_library(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${MST_INCLUDE_DIR})
 
 # Test
-find_package(Catch2 REQUIRED)
 set(MST_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/test)
 
 # Sources
@@ -37,7 +51,7 @@ source_group(test FILES ${TEST_SOURCES})
 
 # Executable
 add_executable(${PROJECT_NAME}-tests ${TEST_SOURCES})
-target_link_libraries(${PROJECT_NAME}-tests Catch2::Catch2 ${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME}-tests CONAN_PKG::catch2 ${PROJECT_NAME})
 
 include(CTest)
 include(Catch)

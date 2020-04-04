@@ -4,18 +4,21 @@ on: [push]
 jobs:
   build:
     name: build
-    runs-on: macos-latest
+    strategy:
+      matrix:
+        platform: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v1
 
       - name: dep
-        run: brew install catch2
+        run: pip install conan
 
       - name: gen
         run: cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Debug
 
       - name: build
-        run: cmake --build build -- -j4
+        run: cmake --build build --config Release --parallel
       
       - name: test
         run: cd build && ctest
