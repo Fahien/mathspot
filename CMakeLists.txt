@@ -14,10 +14,7 @@ endif()
 
 include( ${CMAKE_BINARY_DIR}/conan.cmake )
 
-conan_cmake_run(
-	REQUIRES catch2/2.11.3
-	BASIC_SETUP CMAKE_TARGETS
-	BUILD missing )
+conan_cmake_run( REQUIRES catch2/2.11.3 BASIC_SETUP BUILD missing )
 
 # Includes
 set(MST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
@@ -51,7 +48,8 @@ source_group(test FILES ${TEST_SOURCES})
 
 # Executable
 add_executable(${PROJECT_NAME}-tests ${TEST_SOURCES})
-target_link_libraries(${PROJECT_NAME}-tests CONAN_PKG::catch2 ${PROJECT_NAME})
+message( STATUS "LIBS ${CONAN_LIBS}" )
+target_link_libraries(${PROJECT_NAME}-tests ${CONAN_LIBS} ${PROJECT_NAME})
 
 include(CTest)
 include(Catch)
