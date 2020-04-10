@@ -81,21 +81,14 @@ std::ostream& operator<<( std::ostream& os, const Size& s )
 }
 
 
-Vec2 Vec2::zero{};
-
-
-Vec2::Vec2()
-: x{ 0.0f }
-, y{ 0.0f }
-{
-}
+Vec2 Vec2::Zero {};
+Vec2 Vec2::One { 1.0f, 1.0f };
 
 
 Vec2::Vec2( const float xx, const float yy )
-: x{ xx }
-, y{ yy }
-{
-}
+: x { xx }
+, y { yy }
+{}
 
 
 void Vec2::normalize()
@@ -631,6 +624,25 @@ Vec3 Mat4::operator*( const Vec3& v ) const
 	}
 
 	return { ret[0] / ret[3], ret[1] / ret[3], ret[2] / ret[3] };
+}
+
+
+Vec2 Mat4::operator*( const Vec2& v ) const
+{
+	float ret[4] = {};
+	for ( auto i = 0; i < 4; ++i )
+	{
+		for ( auto j = 0; j < 2; ++j )
+		{
+			auto vv = ( &( v.x ) )[j];
+			auto mv =  matrix[i + j * 4];
+			ret[i] += mv * vv;
+		}
+		auto mv = matrix[i + 3 * 4];
+		ret[i] += mv;
+	}
+
+	return { ret[0] / ret[3], ret[1] / ret[3] };
 }
 
 

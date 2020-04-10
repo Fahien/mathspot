@@ -46,10 +46,10 @@ class Size
 class Vec2
 {
   public:
-	static Vec2 zero;
+	static Vec2 Zero;
+	static Vec2 One;
 
-	Vec2();
-	Vec2( const float xx, const float yy );
+	Vec2( float xx = 0.0f, float yy = 0.0f );
 
 	void normalize();
 
@@ -61,8 +61,8 @@ class Vec2
 
 	friend std::ostream& operator<<( std::ostream& os, const Vec2& v );
 
-	float x;
-	float y;
+	float x = 0.0f;
+	float y = 0.0f;
 };
 
 
@@ -173,6 +173,7 @@ class Mat4
 	Mat4&        operator*=( const Mat4& matrix );
 	Mat4   operator*( const Mat4& other ) const;
 	Vec3 operator*( const Vec3& v ) const;
+	Vec2 operator*( const Vec2& v ) const;
 
 	bool operator==( const Mat4& other ) const;
 

@@ -20,12 +20,15 @@ endif()
 set( MST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include )
 
 # Sources
-set(MST_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src )
-set(SOURCES ${MST_SOURCE_DIR}/math.cc )
-source_group(Sources FILES ${SOURCES} )
+set( MST_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src )
+set( SOURCES
+	${MST_SOURCE_DIR}/math.cc
+	${MST_SOURCE_DIR}/shape.cc
+)
+source_group( Sources FILES ${SOURCES} )
 
-set(CMAKE_C_STANDARD   11 )
-set(CMAKE_CXX_STANDARD 17 )
+set( CMAKE_C_STANDARD   11 )
+set( CMAKE_CXX_STANDARD 17 )
 
 # Library
 add_library( ${PROJECT_NAME} ${SOURCES} )
@@ -43,7 +46,9 @@ set( TEST_SOURCES
 	${MST_TEST_DIR}/mat4-test.cc
 	${MST_TEST_DIR}/quat-test.cc
 	${MST_TEST_DIR}/rectangle-test.cc
-	${MST_TEST_DIR}/misc-test.cc)
+	${MST_TEST_DIR}/rect-test.cc
+	${MST_TEST_DIR}/misc-test.cc
+)
 source_group( test FILES ${TEST_SOURCES} )
 
 # Executable
