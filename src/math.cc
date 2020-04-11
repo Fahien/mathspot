@@ -115,14 +115,29 @@ Vec2& Vec2::operator+=( const Vec2& other )
 }
 
 
-const Vec2 Vec2::operator+( const Vec2& other ) const
+Vec2 Vec2::operator+( const Vec2& other ) const
 {
 	Vec2 result = *this;
 	return result += other;
 }
 
 
-const bool Vec2::operator==( const Vec2& other ) const
+Vec2& Vec2::operator*=( const Vec2& other )
+{
+	x *= other.x;
+	y *= other.y;
+	return *this;
+}
+
+
+Vec2 Vec2::operator*( const Vec2& other ) const
+{
+	Vec2 result = *this;
+	return result *= other;
+}
+
+
+bool Vec2::operator==( const Vec2& other ) const
 {
 	return x == other.x && y == other.y;
 }
@@ -179,6 +194,14 @@ Vec3& Vec3::operator+=( const Vec3& other )
 	x += other.x;
 	y += other.y;
 	z += other.z;
+	return *this;
+}
+
+
+Vec3& Vec3::operator+=( const Vec2& other )
+{
+	x += other.x;
+	y += other.y;
 	return *this;
 }
 

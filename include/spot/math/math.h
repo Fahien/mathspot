@@ -55,9 +55,11 @@ class Vec2
 
 	Vec2&      operator=( const Vec2& other );
 	Vec2&      operator+=( const Vec2& other );
-	const Vec2 operator+( const Vec2& other ) const;
+	Vec2& operator*=( const Vec2& other );
+	Vec2 operator+( const Vec2& other ) const;
+	Vec2 operator*( const Vec2& other ) const;
 
-	const bool operator==( const Vec2& other ) const;
+	bool operator==( const Vec2& other ) const;
 
 	friend std::ostream& operator<<( std::ostream& os, const Vec2& v );
 
@@ -86,6 +88,7 @@ class Vec3
 	void normalize();
 
 	Vec3& operator+=( const Vec3& other );
+	Vec3& operator+=( const Vec2& other );
 	Vec3 operator+( const Vec3& other ) const;
 	Vec3 operator-( const Vec3& other ) const;
 	Vec3 operator-() const;
