@@ -56,8 +56,10 @@ class Vec2
 	Vec2&      operator=( const Vec2& other );
 	Vec2&      operator+=( const Vec2& other );
 	Vec2& operator*=( const Vec2& other );
+	Vec2& operator*=( float c );
 	Vec2 operator+( const Vec2& other ) const;
 	Vec2 operator*( const Vec2& other ) const;
+	Vec2 operator*( float c ) const;
 
 	bool operator==( const Vec2& other ) const;
 
@@ -122,7 +124,7 @@ class Quat
 
 	/// @brief Constructs a quaternion from an axis
 	/// and an angle of rotation around that axis
-	Quat( const Vec3& axis, float angle );
+	Quat( const Vec3& axis, float radians );
 
 	void normalize();
 

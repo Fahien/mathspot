@@ -130,10 +130,25 @@ Vec2& Vec2::operator*=( const Vec2& other )
 }
 
 
+Vec2& Vec2::operator*=( const float c )
+{
+	x *= c;
+	y *= c;
+	return *this;
+}
+
+
 Vec2 Vec2::operator*( const Vec2& other ) const
 {
 	Vec2 result = *this;
 	return result *= other;
+}
+
+
+Vec2 Vec2::operator*( const float c ) const
+{
+	Vec2 result = *this;
+	return result *= c;
 }
 
 
@@ -320,14 +335,14 @@ Quat::Quat( const Mat4& matrix )
 }
 
 
-Quat::Quat( const Vec3& axis, const float angle )
+Quat::Quat( const Vec3& axis, const float radians )
 {
-	auto factor = sinf( angle / 2.0f );
+	auto factor = sinf( radians / 2.0f );
 
 	x = axis.x * factor;
 	y = axis.y * factor;
 	z = axis.z * factor;
-	w = cosf( angle / 2.0f );
+	w = cosf( radians / 2.0f );
 
 	normalize();
 }
