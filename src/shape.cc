@@ -52,7 +52,7 @@ Box::Box( const Vec3& aa, const Vec3& bb )
 
 bool Box::intersects( const Box& other ) const
 {
-	// TODO add depth
+	/// @todo add depth
 	return a.x < other.b.x && b.x > other.a.x && b.y > other.a.y && a.y < other.b.y;
 }
 
@@ -64,4 +64,4 @@ Sphere::Sphere( const Vec3& oo, const float rr )
 }
 
 
-}  // namespace spot::gltf
+}  // namespace spot::math

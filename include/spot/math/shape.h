@@ -49,4 +49,4 @@ struct Sphere
 };
 
 
-}  // namespace spot::gltf
+}  // namespace spot::math
