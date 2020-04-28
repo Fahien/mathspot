@@ -7,24 +7,34 @@ namespace spot::math
 {
 
 
-Rect::Rect( const Vec2& a, const Vec2& b )
-: offset { a }
-, extent { b.x - a.x, b.y - a.y }
-{
-	assert( a.x < b.x && "Point a should be left of point b" );
-	assert( a.y < b.y && "Point a should be below point b" );
-}
+Rect::Rect( const Vec2& aa, const Vec2& bb )
+: a { aa }
+, b { bb }
+{}
 
 
 bool Rect::operator==( const Rect& other ) const
 {
-	return offset.x == other.offset.x && offset.y == other.offset.y &&
-	       extent.x == other.extent.x && extent.y == other.extent.y;
+	return a == other.a && b == other.b;
+}
+
+
+Vec2 Rect::get_offset() const
+{
+	return { std::min( a.x, b.x ), std::min( a.y, b.y ) };
+}
+
+
+Vec2 Rect::get_extent() const
+{
+	return { std::fabs( a.x - b.x ), std::fabs( a.y - b.y ) };
 }
 
 
 bool Rect::contains( const float xx, const float yy ) const
 {
+	auto offset = get_offset();
+	auto extent = get_extent();
 	return ( offset.x <= xx && xx <= ( offset.x + extent.x ) ) && ( offset.y <= yy && yy <= ( offset.y + extent.y ) );
 }
 
@@ -38,8 +48,12 @@ bool Rect::contains( const Vec2& p ) const
 
 bool Rect::intersects( const Rect& other ) const
 {
-	return ( fabs( offset.x - other.offset.x ) * 2 < ( extent.x + other.extent.x ) ) &&
-	       ( fabs( offset.y - other.offset.y ) * 2 < ( extent.y + other.extent.y ) );
+	auto offset = get_offset();
+	auto extent = get_extent();
+	auto other_offset = other.get_offset();
+	auto other_extent = other.get_extent();
+	return ( fabs( offset.x - other_offset.x ) * 2 < ( extent.x + other_extent.x ) ) &&
+	       ( fabs( offset.y - other_offset.y ) * 2 < ( extent.y + other_extent.y ) );
 }
 
 

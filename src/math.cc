@@ -667,20 +667,8 @@ Vec3 Mat4::operator*( const Vec3& v ) const
 
 Vec2 Mat4::operator*( const Vec2& v ) const
 {
-	float ret[4] = {};
-	for ( auto i = 0; i < 4; ++i )
-	{
-		for ( auto j = 0; j < 2; ++j )
-		{
-			auto vv = ( &( v.x ) )[j];
-			auto mv =  matrix[i + j * 4];
-			ret[i] += mv * vv;
-		}
-		auto mv = matrix[i + 3 * 4];
-		ret[i] += mv;
-	}
-
-	return { ret[0] / ret[3], ret[1] / ret[3] };
+	Vec3 ret = *this * Vec3( v.x, v.y );
+	return { ret.x, ret.y };
 }
 
 

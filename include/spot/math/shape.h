@@ -16,6 +16,9 @@ class Rect
 
 	bool operator==( const Rect& other ) const;
 
+	Vec2 get_offset() const;
+	Vec2 get_extent() const;
+
 	/// @brief Tests whether (x, y) is inside the rectangle
 	bool contains( float x, float y ) const;
 	bool contains( const Vec2& p ) const;
@@ -23,8 +26,8 @@ class Rect
 	/// @brief Tests whether this rectangle intersects another one
 	bool intersects( const Rect& other ) const;
 
-	Vec2 offset;
-	Vec2 extent;
+	Vec2 a;
+	Vec2 b;
 };
 
 

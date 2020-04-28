@@ -83,6 +83,10 @@ class Vec3
 	: x { xx }, y { yy }, z{ zz }
 	{}
 
+	constexpr Vec3( const Vec2& vv )
+	: Vec3( vv.x, vv.y )
+	{}
+
 	static Vec3 cross( const Vec3& a, const Vec3& b );
 	static float dot( const Vec3& a, const Vec3& b );
 
