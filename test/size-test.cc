@@ -1,10 +1,15 @@
 #include "test.h"
 
+namespace spot::math
+{
+
 
 TEST_CASE( "Size" )
 {
-	using namespace spot::math;
 
 	auto len = Size();
-	REQUIRE( len == Size::null );
+	REQUIRE( len == Size::Null );
 }
+
+
+} // namespace spot::math

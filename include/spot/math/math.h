@@ -24,22 +24,21 @@ float degrees( const float radians );
 class Size
 {
   public:
-	static Size null;
+	static const Size Null;
 
-	Size();
-	Size( int w, int h );
+	Size( uint64_t w = 0, uint64_t h = 0 );
 
-	Size&      operator*=( const int& f );
-	Size&      operator*=( const float& f );
-	Size&      operator/=( const int& i );
-	const Size operator/( const int& i ) const;
+	Size&      operator*=( const uint64_t f );
+	Size&      operator*=( const float f );
+	Size&      operator/=( const uint64_t i );
+	const Size operator/( const uint64_t i ) const;
 
-	const bool operator==( const Size& other ) const;
+	bool operator==( const Size& other ) const;
 
 	friend std::ostream& operator<<( std::ostream& os, const Size& v );
 
-	int width;
-	int height;
+	uint64_t width;
+	uint64_t height;
 };
 
 
@@ -217,30 +216,6 @@ class Mat4
 	Mat4 rotateZ( float radians ) const;
 
 	float matrix[16];
-};
-
-
-class Rectangle
-{
-  public:
-	static Rectangle zero;
-
-	Rectangle();
-
-	const bool operator==( const Rectangle& other ) const;
-
-	/// Tests whether (x, y) is inside the rectangle
-	bool contains( float x, float y );
-
-	/// Tests whether this rectangle intersects another one
-	bool intersects( const Rectangle& other );
-	/// Tests whether this rectangle intersects another one
-	bool intersects( const Rectangle* other );
-
-	float x;
-	float y;
-	float width;
-	float height;
 };
 
 

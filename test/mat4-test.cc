@@ -1,11 +1,10 @@
 #include "test.h"
 
-namespace mth = spot::math;
 
-namespace spot
+namespace spot::math
 {
 
-bool equals( const mth::Mat4& a, const mth::Mat4& b )
+bool equals( const Mat4& a, const Mat4& b )
 {
 	for ( size_t i = 0; i < 16; ++i )
 	{
@@ -22,8 +21,6 @@ bool equals( const mth::Mat4& a, const mth::Mat4& b )
 
 TEST_CASE( "Mat4" )
 {
-	using namespace spot::math;
-
 	SECTION( "zero" )
 	{
 		auto a = Mat4();
@@ -96,4 +93,5 @@ TEST_CASE( "Mat4" )
 	}
 }
 
-} // namespace spot
+
+} // namespace spot::math

@@ -1,6 +1,6 @@
 #include "test.h"
 
-namespace spot
+namespace spot::math
 {
 
 
@@ -11,7 +11,7 @@ bool equals( const float a, const float b )
 }
 
 
-bool equals( const math::Quat& a, const math::Quat& b )
+bool equals( const Quat& a, const Quat& b )
 {
 	return equals( a.w, b.w ) &&
 		equals( a.x, b.x ) &&
@@ -22,8 +22,6 @@ bool equals( const math::Quat& a, const math::Quat& b )
 
 TEST_CASE( "Quat" )
 {
-	using namespace spot::math;
-
 	SECTION( "identity" )
 	{
 		auto q = Quat::identity;
@@ -92,4 +90,5 @@ TEST_CASE( "Quat" )
 	}
 }
 
-} // namespace spot
+
+} // namespace spot::math

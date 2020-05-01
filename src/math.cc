@@ -21,24 +21,17 @@ float degrees( const float radians )
 }
 
 
-Size Size::null{};
+const Size Size::Null = {};
 
 
-Size::Size()
-: width{ 0 }
-, height{ 0 }
+Size::Size( const uint64_t w, const uint64_t h )
+: width { w }
+, height { h }
 {
 }
 
 
-Size::Size( int w, int h )
-: width{ w }
-, height{ h }
-{
-}
-
-
-Size& Size::operator*=( const int& f )
+Size& Size::operator*=( const uint64_t f )
 {
 	width *= f;
 	height *= f;
@@ -46,15 +39,15 @@ Size& Size::operator*=( const int& f )
 }
 
 
-Size& Size::operator*=( const float& f )
+Size& Size::operator*=( const float f )
 {
-	width  = static_cast<int>( width * f );
-	height = static_cast<int>( height * f );
+	width  = static_cast<uint64_t>( width * f );
+	height = static_cast<uint64_t>( height * f );
 	return *this;
 }
 
 
-Size& Size::operator/=( const int& i )
+Size& Size::operator/=( const uint64_t i )
 {
 	width /= i;
 	height /= i;
@@ -62,14 +55,14 @@ Size& Size::operator/=( const int& i )
 }
 
 
-const Size Size::operator/( const int& i ) const
+const Size Size::operator/( const uint64_t i ) const
 {
 	Size result = *this;
 	return result /= i;
 }
 
 
-const bool Size::operator==( const Size& other ) const
+bool Size::operator==( const Size& other ) const
 {
 	return width == other.width && height == other.height;
 }
@@ -911,43 +904,6 @@ Mat4 Mat4::rotateZ( const float radians ) const
 	Mat4 ret = *this;
 	ret.rotateZ( radians );
 	return ret;
-}
-
-
-Rectangle Rectangle::zero{};
-
-
-Rectangle::Rectangle()
-: x{ 0.0f }
-, y{ 0.0f }
-, width{ 0.0f }
-, height{ 0.0f }
-{
-}
-
-
-const bool Rectangle::operator==( const Rectangle& other ) const
-{
-	return x == 0.0f && y == 0.0f && width == 0.0f && height == 0.0f;
-}
-
-
-bool Rectangle::contains( float xx, float yy )
-{
-	return ( x <= xx && xx <= ( x + width ) ) && ( y <= yy && yy <= ( y + height ) );
-}
-
-
-bool Rectangle::intersects( const Rectangle& other )
-{
-	return ( fabs( x - other.x ) * 2 < ( width + other.width ) ) && ( fabs( y - other.y ) * 2 < ( height + other.height ) );
-}
-
-
-bool Rectangle::intersects( const Rectangle* other )
-{
-	return ( fabs( x - other->x ) * 2 < ( width + other->width ) ) &&
-	       ( fabs( y - other->y ) * 2 < ( height + other->height ) );
 }
 
 

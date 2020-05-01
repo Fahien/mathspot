@@ -1,10 +1,11 @@
 #include "test.h"
 
+namespace spot::math
+{
+
 
 TEST_CASE( "Misc" )
 {
-	using namespace spot::math;
-
 	SECTION( "radians" )
 	{
 		REQUIRE( radians( 90.0f ) == kPi / 2.0f );
@@ -21,3 +22,6 @@ TEST_CASE( "Misc" )
 		REQUIRE( degrees( kPi * 3.0f ) == 540.0f );
 	}
 }
+
+
+} // namespace spot::math
