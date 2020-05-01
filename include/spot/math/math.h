@@ -8,17 +8,25 @@
 namespace spot::math
 {
 
-const float kPi{ 3.14159265f };
+constexpr float Pi = 3.14159265f;
+
 
 /// Degrees to radians conversion
 /// @param[in] degrees Angle in degrees
 /// @return Angle in radians
-float radians( const float degrees );
+constexpr float radians( const float degrees )
+{
+	return degrees * Pi / 180.0f;
+}
+
 
 /// Radians to degrees conversion
 /// @param[in] radians Angle in radians
 /// @return Angle in degrees
-float degrees( const float radians );
+constexpr float degrees( const float radians )
+{
+	return radians * 180.0f / Pi;
+}
 
 
 class Size
@@ -56,9 +64,12 @@ class Vec2
 	Vec2&      operator+=( const Vec2& other );
 	Vec2& operator*=( const Vec2& other );
 	Vec2& operator*=( float c );
+	Vec2& operator/=( float c );
 	Vec2 operator+( const Vec2& other ) const;
+	Vec2 operator-() const;
 	Vec2 operator*( const Vec2& other ) const;
 	Vec2 operator*( float c ) const;
+	Vec2 operator/( float c ) const;
 
 	bool operator==( const Vec2& other ) const;
 
@@ -94,12 +105,15 @@ class Vec3
 
 	Vec3& operator+=( const Vec3& other );
 	Vec3& operator+=( const Vec2& other );
+	Vec3& operator+=( float c );
 	Vec3 operator+( const Vec3& other ) const;
 	Vec3 operator-( const Vec3& other ) const;
 	Vec3 operator-() const;
 
 	Vec3& operator*=( float k );
 	Vec3 operator*( float k ) const;
+	Vec3& operator/=( float k );
+	Vec3 operator/( float k ) const;
 
 	bool operator==( const Vec3& other ) const;
 

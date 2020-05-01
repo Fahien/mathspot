@@ -9,18 +9,6 @@ namespace spot::math
 {
 
 
-float radians( const float degrees )
-{
-	return degrees * kPi / 180.0f;
-}
-
-
-float degrees( const float radians )
-{
-	return radians * 180.0f / kPi;
-}
-
-
 const Size Size::Null = {};
 
 
@@ -115,6 +103,12 @@ Vec2 Vec2::operator+( const Vec2& other ) const
 }
 
 
+Vec2 Vec2::operator-() const
+{
+	return Vec2( -x, -y );
+}
+
+
 Vec2& Vec2::operator*=( const Vec2& other )
 {
 	x *= other.x;
@@ -131,6 +125,14 @@ Vec2& Vec2::operator*=( const float c )
 }
 
 
+Vec2& Vec2::operator/=( const float c )
+{
+	x /= c;
+	y /= c;
+	return *this;
+}
+
+
 Vec2 Vec2::operator*( const Vec2& other ) const
 {
 	Vec2 result = *this;
@@ -142,6 +144,13 @@ Vec2 Vec2::operator*( const float c ) const
 {
 	Vec2 result = *this;
 	return result *= c;
+}
+
+
+Vec2 Vec2::operator/( const float c ) const
+{
+	Vec2 result = *this;
+	return result /= c;
 }
 
 
@@ -214,6 +223,15 @@ Vec3& Vec3::operator+=( const Vec2& other )
 }
 
 
+Vec3& Vec3::operator+=( const float c )
+{
+	x += c;
+	y += c;
+	z += c;
+	return *this;
+}
+
+
 Vec3 Vec3::operator+( const Vec3& other ) const
 {
 	return { x + other.x, y + other.y, z + other.z };
@@ -245,6 +263,22 @@ Vec3 Vec3::operator*( const float k ) const
 {
 	Vec3 ret = *this;
 	return ret *= k;
+}
+
+
+Vec3& Vec3::operator/=( const float k )
+{
+	x /= k;
+	y /= k;
+	z /= k;
+	return *this;
+}
+
+
+Vec3 Vec3::operator/( const float k ) const
+{
+	Vec3 ret = *this;
+	return ret /= k;
 }
 
 
