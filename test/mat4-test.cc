@@ -24,7 +24,7 @@ TEST_CASE( "Mat4" )
 	SECTION( "zero" )
 	{
 		auto a = Mat4();
-		REQUIRE( a == Mat4::zero );
+		REQUIRE( a == Mat4::Zero );
 	}
 
 	SECTION( "identity" )
@@ -36,7 +36,7 @@ TEST_CASE( "Mat4" )
 			0.0f, 0.0f, 0.0f, 1.0f
 		};
 
-		REQUIRE( id == Mat4::identity );
+		REQUIRE( id == Mat4::Identity );
 	}
 
 	SECTION( "scale" )
@@ -48,7 +48,7 @@ TEST_CASE( "Mat4" )
 			0.0f, 0.0f, 0.0f, 1.0f
 		};
 
-		REQUIRE( sc == Mat4::identity.scale( { 2.0f, 2.0f, 2.0f } ) );
+		REQUIRE( sc == Mat4::Identity.scale( { 2.0f, 2.0f, 2.0f } ) );
 	}
 
 	SECTION( "rotate" )
@@ -62,10 +62,10 @@ TEST_CASE( "Mat4" )
 				0.0f, 0.0f, 0.0f, 1.0f
 			};
 
-			auto rot = Mat4::identity.rotateX( radians( 90.0f ) );
+			auto rot = Mat4::Identity.rotateX( radians( 90.0f ) );
 			REQUIRE( equals( base, rot ) );
 
-			auto double_rot = Mat4::identity.rotateX( radians( 360.0f + 90.0f ) );
+			auto double_rot = Mat4::Identity.rotateX( radians( 360.0f + 90.0f ) );
 			REQUIRE( equals( base, double_rot ) );
 
 			base = Mat4{
@@ -75,7 +75,7 @@ TEST_CASE( "Mat4" )
 				0.0f, 0.0f, 0.0f, 1.0f
 			};
 
-			rot = Mat4::identity.rotateX( radians( 45.0f ) );
+			rot = Mat4::Identity.rotateX( radians( 45.0f ) );
 			REQUIRE( equals( base, rot ) );
 		}
 	}
@@ -89,7 +89,7 @@ TEST_CASE( "Mat4" )
 			2.0f, 3.0f, 4.0f, 1.0f
 		};
 
-		REQUIRE( tr == Mat4::identity.translate( { 2.0f, 3.0f, 4.0f } ) );
+		REQUIRE( tr == Mat4::Identity.translate( { 2.0f, 3.0f, 4.0f } ) );
 	}
 }
 

@@ -53,10 +53,10 @@ class Size
 class Vec2
 {
   public:
-	static Vec2 Zero;
-	static Vec2 One;
+	static const Vec2 Zero;
+	static const Vec2 One;
 
-	Vec2( float xx = 0.0f, float yy = 0.0f );
+	constexpr Vec2( float xx = 0.0f, float yy = 0.0f ) : x { xx }, y { yy } {}
 
 	void normalize();
 
@@ -116,6 +116,7 @@ class Vec3
 	Vec3 operator/( float k ) const;
 
 	bool operator==( const Vec3& other ) const;
+	bool operator!=( const Vec3& other ) const;
 
 	float x = 0.0f;
 	float y = 0.0f;
@@ -130,10 +131,11 @@ std::ostream& operator<<( std::ostream& os, const Vec3& v );
 
 class Mat4;
 
+
 class Quat
 {
   public:
-	static const Quat identity;
+	static const Quat Identity;
 
 	Quat( float w = 0.0f, float x = 0.0f, float y = 0.0f, float z = 0.0f );
 
@@ -175,10 +177,10 @@ Quat slerp( Quat a, Quat b, float t );
 class Mat4
 {
   public:
-	static const Mat4 zero;
-	static const Mat4 identity;
+	static const Mat4 Zero;
+	static const Mat4 Identity;
 
-	Mat4();
+	Mat4() = default;
 	Mat4( std::initializer_list<float> l );
 	Mat4( const float* const m );
 	Mat4( const Quat& quat );
@@ -229,7 +231,7 @@ class Mat4
 	Mat4 rotateY( float radians ) const;
 	Mat4 rotateZ( float radians ) const;
 
-	float matrix[16];
+	float matrix[16] = {};
 };
 
 

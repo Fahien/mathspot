@@ -11,7 +11,7 @@ TEST_CASE( "Vec2" )
 
 	SECTION( "Translate" )
 	{
-		auto matrix = Mat4::identity;
+		auto matrix = Mat4::Identity;
 		REQUIRE( a == matrix * a );
 		REQUIRE( a == Vec2::Zero );
 

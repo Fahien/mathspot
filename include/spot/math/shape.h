@@ -12,7 +12,8 @@ namespace spot::math
 class Rect
 {
   public:
-	Rect( const Vec2& a = {}, const Vec2& b = {} );
+	/// @brief Default constructs a degenerate rect centered at the origin
+	constexpr Rect( const Vec2& aa = {}, const Vec2& bb = {} ) : a { aa }, b { bb } {}
 
 	bool operator==( const Rect& other ) const;
 
@@ -33,22 +34,24 @@ class Rect
 
 struct Box
 {
-	Box( const Vec3& a = {}, const Vec3& b = {} );
+	/// @brief Default constructs degenerate box centered at the origin
+	constexpr Box( const Vec3& aa = {}, const Vec3& bb = {} ) : a { aa }, b { bb } {}
 
 	/// @brief Tests whether this box intersects another one
 	bool intersects( const Box& b ) const;
 
-	Vec3 a = {};
-	Vec3 b = {};
+	Vec3 a;
+	Vec3 b;
 };
 
 
 struct Sphere
 {
-	Sphere( const Vec3& o = {}, float r = 0.0f );
+	/// @brief Default constructs a degenerate sphere centered at the origin
+	constexpr Sphere( const Vec3& oo = {}, float rr = 0.0f ) : o { oo }, r { rr } {}
 
-	Vec3 o = {};
-	float          r = 0.0f;
+	Vec3 o;
+	float r;
 };
 
 

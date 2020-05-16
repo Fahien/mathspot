@@ -7,12 +7,6 @@ namespace spot::math
 {
 
 
-Rect::Rect( const Vec2& aa, const Vec2& bb )
-: a { aa }
-, b { bb }
-{}
-
-
 bool Rect::operator==( const Rect& other ) const
 {
 	return a == other.a && b == other.b;
@@ -45,7 +39,6 @@ bool Rect::contains( const Vec2& p ) const
 }
 
 
-
 bool Rect::intersects( const Rect& other ) const
 {
 	auto offset = get_offset();
@@ -57,24 +50,10 @@ bool Rect::intersects( const Rect& other ) const
 }
 
 
-Box::Box( const Vec3& aa, const Vec3& bb )
-: a { aa }
-, b { bb }
-{
-}
-
-
 bool Box::intersects( const Box& other ) const
 {
 	/// @todo add depth
 	return a.x < other.b.x && b.x > other.a.x && b.y > other.a.y && a.y < other.b.y;
-}
-
-
-Sphere::Sphere( const Vec3& oo, const float rr )
-: o { oo }
-, r { rr }
-{
 }
 
 

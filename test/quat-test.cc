@@ -24,7 +24,7 @@ TEST_CASE( "Quat" )
 {
 	SECTION( "identity" )
 	{
-		auto q = Quat::identity;
+		auto q = Quat::Identity;
 		REQUIRE( q.w == 1.0f );
 		REQUIRE( q.x == 0.0f );
 		REQUIRE( q.y == 0.0f );
@@ -33,33 +33,33 @@ TEST_CASE( "Quat" )
 
 	SECTION( "from-axis-angle" )
 	{
-		auto q = Quat::identity;
+		auto q = Quat::Identity;
 		auto angle = radians( 90.0f );
 
 		q *= Quat( Vec3::Z, radians( 90.0f ) );
 
-		auto expected = Quat( Mat4::identity.rotateZ( angle ) );
+		auto expected = Quat( Mat4::Identity.rotateZ( angle ) );
 
 		REQUIRE( equals( q, expected ) );
 	}
 
 	SECTION( "from-matrix" )
 	{
-		auto q = Quat( Mat4::identity );
-		REQUIRE( q == Quat::identity );
+		auto q = Quat( Mat4::Identity );
+		REQUIRE( q == Quat::Identity );
 
 		SECTION( "rotation" )
 		{
 			SECTION( "x" )
 			{
-				auto rot_mat = Mat4::identity.rotateX( radians( 45.0f ) );
+				auto rot_mat = Mat4::Identity.rotateX( radians( 45.0f ) );
 				auto q_from_mat = Quat( rot_mat );
-				auto a = Mat4::identity.rotate( q_from_mat );
+				auto a = Mat4::Identity.rotate( q_from_mat );
 				REQUIRE( equals( rot_mat, a ) );
 
-				rot_mat = Mat4::identity.rotateX( radians( 360.0f + 45.0f ) );
+				rot_mat = Mat4::Identity.rotateX( radians( 360.0f + 45.0f ) );
 				q_from_mat = Quat( rot_mat );
-				auto b = Mat4::identity.rotate( q_from_mat );
+				auto b = Mat4::Identity.rotate( q_from_mat );
 				REQUIRE( equals( rot_mat, b ) );
 
 				REQUIRE( equals( a, b ) );
@@ -67,10 +67,10 @@ TEST_CASE( "Quat" )
 
 			SECTION( "y" )
 			{
-				auto rot_mat = Mat4::identity.rotateY( radians( 45.0f ) );
+				auto rot_mat = Mat4::Identity.rotateY( radians( 45.0f ) );
 				auto q_from_mat = Quat( rot_mat );
 				
-				auto a = Mat4::identity;
+				auto a = Mat4::Identity;
 				a.rotate( q_from_mat );
 
 				REQUIRE( equals( rot_mat, a ) );
@@ -78,10 +78,10 @@ TEST_CASE( "Quat" )
 
 			SECTION( "z" )
 			{
-				auto rot_mat = Mat4::identity.rotateZ( radians( 45.0f ) );
+				auto rot_mat = Mat4::Identity.rotateZ( radians( 45.0f ) );
 				auto q_from_mat = Quat( rot_mat );
 				
-				auto a = Mat4::identity;
+				auto a = Mat4::Identity;
 				a.rotate( q_from_mat );
 
 				REQUIRE( equals( rot_mat, a ) );

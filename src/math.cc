@@ -62,14 +62,8 @@ std::ostream& operator<<( std::ostream& os, const Size& s )
 }
 
 
-Vec2 Vec2::Zero {};
-Vec2 Vec2::One { 1.0f, 1.0f };
-
-
-Vec2::Vec2( const float xx, const float yy )
-: x { xx }
-, y { yy }
-{}
+const Vec2 Vec2::Zero = {};
+const Vec2 Vec2::One = { 1.0f, 1.0f };
 
 
 void Vec2::normalize()
@@ -288,6 +282,12 @@ bool Vec3::operator==( const Vec3& other ) const
 }
 
 
+bool Vec3::operator!=( const Vec3& other ) const
+{
+	return !( *this == other );
+}
+
+
 Vec3 operator*( const float c, const Vec3& v )
 {
 	return { c * v.x, c * v.y, c * v.z };
@@ -306,7 +306,7 @@ std::ostream& operator<<( std::ostream& os, const Vec3& v )
 }
 
 
-const Quat Quat::identity = { 1.0f, 0.0f, 0.0f, 0.0f };
+const Quat Quat::Identity = { 1.0f, 0.0f, 0.0f, 0.0f };
 
 
 Quat::Quat( float ww, float xx, float yy, float zz )
@@ -496,21 +496,15 @@ Quat slerp( Quat a, Quat b, const float t )
 }
 
 
-const Mat4 Mat4::zero = {};
+const Mat4 Mat4::Zero = {};
 
 
-const Mat4 Mat4::identity = {
+const Mat4 Mat4::Identity = {
 	1.0f, 0.0f, 0.0f, 0.0f,
 	0.0f, 1.0f, 0.0f, 0.0f,
 	0.0f, 0.0f, 1.0f, 0.0f,
 	0.0f, 0.0f, 0.0f, 1.0f
 };
-
-
-Mat4::Mat4()
-    : matrix{ 0.0f }
-{
-}
 
 
 Mat4::Mat4( std::initializer_list<float> list )
