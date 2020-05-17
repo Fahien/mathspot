@@ -97,9 +97,24 @@ Vec2 Vec2::operator+( const Vec2& other ) const
 }
 
 
+Vec2& Vec2::operator-=( const Vec2& other )
+{
+	x -= other.x;
+	y -= other.y;
+	return *this;
+}
+
+
+Vec2 Vec2::operator-( const Vec2& other ) const
+{
+	Vec2 result = *this;
+	return result -= other;
+}
+
+
 Vec2 Vec2::operator-() const
 {
-	return Vec2( -x, -y );
+	return { -x, -y };
 }
 
 
@@ -157,6 +172,12 @@ bool Vec2::operator==( const Vec2& other ) const
 std::ostream& operator<<( std::ostream& os, const Vec2& v )
 {
 	return os << "[" << v.x << ", " << v.y << "]";
+}
+
+
+Vec2 abs( const Vec2& v )
+{
+	return { std::fabs( v.x ), std::fabs( v.y ) };
 }
 
 
@@ -707,11 +728,12 @@ bool Mat4::operator==( const Mat4& other ) const
 }
 
 
-void Mat4::translate( const Vec3& vec )
+Mat4& Mat4::translate( const Vec3& vec )
 {
 	matrix[12] += vec.x;
 	matrix[13] += vec.y;
 	matrix[14] += vec.z;
+	return *this;
 }
 
 
@@ -764,11 +786,12 @@ Mat4 Mat4::translateZ( const float amount ) const
 }
 
 
-void Mat4::scale( const Vec3& scale )
+Mat4& Mat4::scale( const Vec3& scale )
 {
 	matrix[0]  = scale.x;
 	matrix[5]  = scale.y;
 	matrix[10] = scale.z;
+	return *this;
 }
 
 
@@ -822,7 +845,7 @@ Mat4 Mat4::scaleZ( const float amount ) const
 }
 
 
-void Mat4::rotate( const Quat& q )
+Mat4& Mat4::rotate( const Quat& q )
 {
 	float xw, yw, zw, xx, yy, yz, xy, xz, zz;
 
@@ -861,6 +884,7 @@ void Mat4::rotate( const Quat& q )
 	};
 
 	*this = rot * *this;
+	return *this;
 }
 
 

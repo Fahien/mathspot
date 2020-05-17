@@ -21,7 +21,7 @@ Vec2 Rect::get_offset() const
 
 Vec2 Rect::get_extent() const
 {
-	return { std::fabs( a.x - b.x ), std::fabs( a.y - b.y ) };
+	return abs( b - a );
 }
 
 
@@ -47,6 +47,38 @@ bool Rect::intersects( const Rect& other ) const
 	auto other_extent = other.get_extent();
 	return ( fabs( offset.x - other_offset.x ) * 2 < ( extent.x + other_extent.x ) ) &&
 	       ( fabs( offset.y - other_offset.y ) * 2 < ( extent.y + other_extent.y ) );
+}
+
+
+float Rect::distance_x( const Rect& other ) const
+{
+	if ( a.x < other.a.x )
+	{
+		return ( other.a.x - a.x ) - ( b.x - a.x );
+	}
+	else
+	{
+		return ( other.a.x - a.x ) + ( other.b.x - other.a.x );
+	}
+}
+
+
+float Rect::distance_y( const Rect& other ) const
+{
+	if ( a.y < other.a.y )
+	{
+		return ( other.a.y - a.y ) - ( b.y - a.y );
+	}
+	else
+	{
+		return ( other.a.y - a.y ) + ( other.b.y - other.a.y );
+	}
+}
+
+
+Vec2 Rect::distance( const Rect& other ) const
+{
+	return { distance_x( other ), distance_y( other ) };
 }
 
 

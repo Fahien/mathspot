@@ -60,12 +60,14 @@ class Vec2
 
 	void normalize();
 
-	Vec2&      operator=( const Vec2& other );
-	Vec2&      operator+=( const Vec2& other );
+	Vec2& operator=( const Vec2& other );
+	Vec2& operator+=( const Vec2& other );
+	Vec2& operator-=( const Vec2& other );
 	Vec2& operator*=( const Vec2& other );
 	Vec2& operator*=( float c );
 	Vec2& operator/=( float c );
 	Vec2 operator+( const Vec2& other ) const;
+	Vec2 operator-( const Vec2& other ) const;
 	Vec2 operator-() const;
 	Vec2 operator*( const Vec2& other ) const;
 	Vec2 operator*( float c ) const;
@@ -78,6 +80,9 @@ class Vec2
 	float x = 0.0f;
 	float y = 0.0f;
 };
+
+
+Vec2 abs( const Vec2& v );
 
 
 class Vec3
@@ -201,7 +206,7 @@ class Mat4
 
 	bool operator==( const Mat4& other ) const;
 
-	void translate( const Vec3& vec );
+	Mat4& translate( const Vec3& vec );
 	void translateX( float amount );
 	void translateY( float amount );
 	void translateZ( float amount );
@@ -211,7 +216,7 @@ class Mat4
 	Mat4 translateY( float amount ) const;
 	Mat4 translateZ( float amount ) const;
 
-	void scale( const Vec3& scale );
+	Mat4& scale( const Vec3& scale );
 	void scaleX( float scale );
 	void scaleY( float scale );
 	void scaleZ( float scale );
@@ -221,7 +226,7 @@ class Mat4
 	Mat4 scaleY( float scale ) const;
 	Mat4 scaleZ( float scale ) const;
 
-	void rotate( const Quat& quat );
+	Mat4& rotate( const Quat& quat );
 	void rotateX( float radians );
 	void rotateY( float radians );
 	void rotateZ( float radians );

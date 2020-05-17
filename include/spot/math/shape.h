@@ -9,6 +9,7 @@ namespace spot::math
 {
 
 
+/// @todo Would it be better to use a vector origin point?
 class Rect
 {
   public:
@@ -26,6 +27,15 @@ class Rect
 
 	/// @brief Tests whether this rectangle intersects another one
 	bool intersects( const Rect& other ) const;
+
+	/// @return The X distance from another rectangle
+	float distance_x( const Rect& other ) const;
+
+	/// @return The Y distance from another rectangle
+	float distance_y( const Rect& other ) const;
+
+	/// @return The distance from another rectangle
+	Vec2 distance( const Rect& other ) const;
 
 	Vec2 a;
 	Vec2 b;
