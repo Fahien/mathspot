@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <cassert>
+#include <cstring>
 
 
 namespace spot::math
@@ -637,10 +638,7 @@ float* Mat4::operator[]( const size_t index )
 
 Mat4& Mat4::operator=( const Mat4& other )
 {
-	for ( size_t i = 0; i < 16; ++i )
-	{
-		matrix[i] = other.matrix[i];
-	}
+	std::memcpy( matrix, other.matrix, sizeof( float ) * 16 );
 	return *this;
 }
 
@@ -665,18 +663,26 @@ Mat4 Mat4::operator+( const Mat4& other ) const
 Mat4& Mat4::operator*=( const Mat4& other )
 {
 	float temp[16];
+
 	for ( size_t i = 0; i < 4; ++i )
 	{
+		const float a = matrix[i];
+		const float b = matrix[i+4];
+		const float c = matrix[i+8];
+		const float d = matrix[i+12];
+	
 		for ( size_t j = 0; j < 4; ++j )
 		{
-			temp[i + j * 4] = matrix[i] * other.matrix[j * 4] + matrix[i + 4] * other.matrix[j * 4 + 1] +
-			                  matrix[i + 8] * other.matrix[j * 4 + 2] + matrix[i + 12] * other.matrix[j * 4 + 3];
+			const size_t k = j * 4;
+			const float e = a * other.matrix[k];
+			const float f = b * other.matrix[k+1];
+			const float g = c * other.matrix[k+2];
+			const float h = d * other.matrix[k+3];
+			temp[i+k] = e + f + g + h;
 		}
 	}
-	for ( int i = 0; i < 16; ++i )
-	{
-		matrix[i] = temp[i];
-	}
+
+	std::memcpy( matrix, temp, sizeof( float ) * 16 );
 	return *this;
 }
 
