@@ -38,7 +38,7 @@ TEST_CASE( "Quat" )
 
 		q *= Quat( Vec3::Z, radians( 90.0f ) );
 
-		auto expected = Quat( Mat4::Identity.rotateZ( angle ) );
+		auto expected = Quat( Mat4::Identity.rotate_z( angle ) );
 
 		REQUIRE( equals( q, expected ) );
 	}
@@ -52,12 +52,12 @@ TEST_CASE( "Quat" )
 		{
 			SECTION( "x" )
 			{
-				auto rot_mat = Mat4::Identity.rotateX( radians( 45.0f ) );
+				auto rot_mat = Mat4::Identity.rotate_x( radians( 45.0f ) );
 				auto q_from_mat = Quat( rot_mat );
 				auto a = Mat4::Identity.rotate( q_from_mat );
 				REQUIRE( equals( rot_mat, a ) );
 
-				rot_mat = Mat4::Identity.rotateX( radians( 360.0f + 45.0f ) );
+				rot_mat = Mat4::Identity.rotate_x( radians( 360.0f + 45.0f ) );
 				q_from_mat = Quat( rot_mat );
 				auto b = Mat4::Identity.rotate( q_from_mat );
 				REQUIRE( equals( rot_mat, b ) );
@@ -67,7 +67,7 @@ TEST_CASE( "Quat" )
 
 			SECTION( "y" )
 			{
-				auto rot_mat = Mat4::Identity.rotateY( radians( 45.0f ) );
+				auto rot_mat = Mat4::Identity.rotate_y( radians( 45.0f ) );
 				auto q_from_mat = Quat( rot_mat );
 				
 				auto a = Mat4::Identity;
@@ -78,7 +78,7 @@ TEST_CASE( "Quat" )
 
 			SECTION( "z" )
 			{
-				auto rot_mat = Mat4::Identity.rotateZ( radians( 45.0f ) );
+				auto rot_mat = Mat4::Identity.rotate_z( radians( 45.0f ) );
 				auto q_from_mat = Quat( rot_mat );
 				
 				auto a = Mat4::Identity;

@@ -62,10 +62,10 @@ TEST_CASE( "Mat4" )
 				0.0f, 0.0f, 0.0f, 1.0f
 			};
 
-			auto rot = Mat4::Identity.rotateX( radians( 90.0f ) );
+			auto rot = Mat4::Identity.rotate_x( radians( 90.0f ) );
 			REQUIRE( equals( base, rot ) );
 
-			auto double_rot = Mat4::Identity.rotateX( radians( 360.0f + 90.0f ) );
+			auto double_rot = Mat4::Identity.rotate_x( radians( 360.0f + 90.0f ) );
 			REQUIRE( equals( base, double_rot ) );
 
 			base = Mat4{
@@ -75,7 +75,7 @@ TEST_CASE( "Mat4" )
 				0.0f, 0.0f, 0.0f, 1.0f
 			};
 
-			rot = Mat4::Identity.rotateX( radians( 45.0f ) );
+			rot = Mat4::Identity.rotate_x( radians( 45.0f ) );
 			REQUIRE( equals( base, rot ) );
 		}
 	}

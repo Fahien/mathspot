@@ -15,8 +15,8 @@ TEST_CASE( "Vec2" )
 		REQUIRE( a == matrix * a );
 		REQUIRE( a == Vec2::Zero );
 
-		matrix.translateX( 1.0f );
-		matrix.translateY( 1.0f );
+		matrix.translate_x( 1.0f );
+		matrix.translate_y( 1.0f );
 		a = matrix * a;
 		REQUIRE( a == Vec2::One );
 	}

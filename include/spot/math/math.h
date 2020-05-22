@@ -108,12 +108,17 @@ class Vec3
 	void set( float xx, float yy, float zz );
 	void normalize();
 
+	Vec3& operator=( const Vec2& other );
+
 	Vec3& operator+=( const Vec3& other );
 	Vec3& operator+=( const Vec2& other );
 	Vec3& operator+=( float c );
 	Vec3 operator+( const Vec3& other ) const;
 	Vec3 operator-( const Vec3& other ) const;
 	Vec3 operator-() const;
+
+	Vec3& operator*=( const Vec3& other );
+	Vec3 operator*( const Vec3& other ) const;
 
 	Vec3& operator*=( float k );
 	Vec3 operator*( float k ) const;
@@ -207,34 +212,34 @@ class Mat4
 	bool operator==( const Mat4& other ) const;
 
 	Mat4& translate( const Vec3& vec );
-	void translateX( float amount );
-	void translateY( float amount );
-	void translateZ( float amount );
+	void translate_x( float amount );
+	void translate_y( float amount );
+	void translate_z( float amount );
 
 	Mat4 translate( const Vec3& vec ) const;
-	Mat4 translateX( float amount ) const;
-	Mat4 translateY( float amount ) const;
-	Mat4 translateZ( float amount ) const;
+	Mat4 translate_x( float amount ) const;
+	Mat4 translate_y( float amount ) const;
+	Mat4 translate_z( float amount ) const;
 
 	Mat4& scale( const Vec3& scale );
-	void scaleX( float scale );
-	void scaleY( float scale );
-	void scaleZ( float scale );
+	void scale_x( float scale );
+	void scale_y( float scale );
+	void scale_z( float scale );
 
 	Mat4 scale( const Vec3& scale ) const;
-	Mat4 scaleX( float scale ) const;
-	Mat4 scaleY( float scale ) const;
-	Mat4 scaleZ( float scale ) const;
+	Mat4 scale_x( float scale ) const;
+	Mat4 scale_y( float scale ) const;
+	Mat4 scale_z( float scale ) const;
 
 	Mat4& rotate( const Quat& quat );
-	void rotateX( float radians );
-	void rotateY( float radians );
-	void rotateZ( float radians );
+	void rotate_x( float radians );
+	void rotate_y( float radians );
+	void rotate_z( float radians );
 
 	Mat4 rotate( const Quat& quat ) const;
-	Mat4 rotateX( float radians ) const;
-	Mat4 rotateY( float radians ) const;
-	Mat4 rotateZ( float radians ) const;
+	Mat4 rotate_x( float radians ) const;
+	Mat4 rotate_y( float radians ) const;
+	Mat4 rotate_z( float radians ) const;
 
 	float matrix[16] = {};
 };

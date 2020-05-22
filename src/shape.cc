@@ -45,8 +45,10 @@ bool Rect::intersects( const Rect& other ) const
 	auto extent = get_extent();
 	auto other_offset = other.get_offset();
 	auto other_extent = other.get_extent();
-	return ( fabs( offset.x - other_offset.x ) * 2 < ( extent.x + other_extent.x ) ) &&
-	       ( fabs( offset.y - other_offset.y ) * 2 < ( extent.y + other_extent.y ) );
+	return offset.x < ( other_offset.x + other_extent.x ) &&
+		( offset.x + extent.x ) > other_offset.x &&
+		( offset.y + extent.y ) > other_offset.y &&
+		offset.y < ( other_offset.y + other_extent.y );
 }
 
 

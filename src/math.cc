@@ -222,6 +222,14 @@ void Vec3::normalize()
 }
 
 
+Vec3& Vec3::operator=( const Vec2& other )
+{
+	x = other.x;
+	y = other.y;
+	return *this;
+}
+
+
 Vec3& Vec3::operator+=( const Vec3& other )
 {
 	x += other.x;
@@ -263,6 +271,22 @@ Vec3 Vec3::operator-( const Vec3& other ) const
 Vec3 Vec3::operator-() const
 {
 	return { -x, -y, -z };
+}
+
+
+Vec3& Vec3::operator*=( const Vec3& other )
+{
+	x *= other.x;
+	y *= other.y;
+	z *= other.z;
+	return *this;
+}
+
+
+Vec3 Vec3::operator*( const Vec3& other ) const
+{
+	Vec3 ret = *this;
+	return ret *= other;
 }
 
 
@@ -743,19 +767,19 @@ Mat4& Mat4::translate( const Vec3& vec )
 }
 
 
-void Mat4::translateX( const float amount )
+void Mat4::translate_x( const float amount )
 {
 	matrix[12] += amount;
 }
 
 
-void Mat4::translateY( const float amount )
+void Mat4::translate_y( const float amount )
 {
 	matrix[13] += amount;
 }
 
 
-void Mat4::translateZ( const float amount )
+void Mat4::translate_z( const float amount )
 {
 	matrix[14] += amount;
 }
@@ -768,54 +792,54 @@ Mat4 Mat4::translate( const Vec3& vec ) const
 }
 
 
-Mat4 Mat4::translateX( const float amount ) const
+Mat4 Mat4::translate_x( const float amount ) const
 {
 	Mat4 ret = *this;
-	ret.translateX( amount );
+	ret.translate_x( amount );
 	return ret;
 }
 
 
-Mat4 Mat4::translateY( const float amount ) const
+Mat4 Mat4::translate_y( const float amount ) const
 {
 	Mat4 ret = *this;
-	ret.translateY( amount );
+	ret.translate_y( amount );
 	return ret;
 }
 
 
-Mat4 Mat4::translateZ( const float amount ) const
+Mat4 Mat4::translate_z( const float amount ) const
 {
 	Mat4 ret = *this;
-	ret.translateZ( amount );
+	ret.translate_z( amount );
 	return ret;
 }
 
 
 Mat4& Mat4::scale( const Vec3& scale )
 {
-	matrix[0]  = scale.x;
-	matrix[5]  = scale.y;
-	matrix[10] = scale.z;
+	matrix[0]  *= scale.x;
+	matrix[5]  *= scale.y;
+	matrix[10] *= scale.z;
 	return *this;
 }
 
 
-void Mat4::scaleX( const float scale )
+void Mat4::scale_x( const float scale )
 {
-	matrix[0] = scale;
+	matrix[0] *= scale;
 }
 
 
-void Mat4::scaleY( const float scale )
+void Mat4::scale_y( const float scale )
 {
-	matrix[5] = scale;
+	matrix[5] *= scale;
 }
 
 
-void Mat4::scaleZ( const float scale )
+void Mat4::scale_z( const float scale )
 {
-	matrix[10] = scale;
+	matrix[10] *= scale;
 }
 
 
@@ -827,26 +851,26 @@ Mat4 Mat4::scale( const Vec3& scale ) const
 }
 
 
-Mat4 Mat4::scaleX( const float amount ) const
+Mat4 Mat4::scale_x( const float amount ) const
 {
 	auto ret = *this;
-	ret.scaleX( amount );
+	ret.scale_x( amount );
 	return ret;
 }
 
 
-Mat4 Mat4::scaleY( const float amount ) const
+Mat4 Mat4::scale_y( const float amount ) const
 {
 	auto ret = *this;
-	ret.scaleY( amount );
+	ret.scale_y( amount );
 	return ret;
 }
 
 
-Mat4 Mat4::scaleZ( const float amount ) const
+Mat4 Mat4::scale_z( const float amount ) const
 {
 	auto ret = *this;
-	ret.scaleZ( amount );
+	ret.scale_z( amount );
 	return ret;
 }
 
@@ -894,7 +918,7 @@ Mat4& Mat4::rotate( const Quat& q )
 }
 
 
-void Mat4::rotateX( const float radians )
+void Mat4::rotate_x( const float radians )
 {
 	float cosrad = std::cos( radians );
 	float sinrad = std::sin( radians );
@@ -907,7 +931,7 @@ void Mat4::rotateX( const float radians )
 }
 
 
-void Mat4::rotateY( const float radians )
+void Mat4::rotate_y( const float radians )
 {
 	float cosrad = std::cos( radians );
 	float sinrad = std::sin( radians );
@@ -920,7 +944,7 @@ void Mat4::rotateY( const float radians )
 }
 
 
-void Mat4::rotateZ( const float radians )
+void Mat4::rotate_z( const float radians )
 {
 	float cosrad = std::cos( radians );
 	float sinrad = std::sin( radians );
@@ -941,26 +965,26 @@ Mat4 Mat4::rotate( const Quat& q ) const
 }
 
 
-Mat4 Mat4::rotateX( const float radians ) const
+Mat4 Mat4::rotate_x( const float radians ) const
 {
 	Mat4 ret = *this;
-	ret.rotateX( radians );
+	ret.rotate_x( radians );
 	return ret;
 }
 
 
-Mat4 Mat4::rotateY( const float radians ) const
+Mat4 Mat4::rotate_y( const float radians ) const
 {
 	Mat4 ret = *this;
-	ret.rotateY( radians );
+	ret.rotate_y( radians );
 	return ret;
 }
 
 
-Mat4 Mat4::rotateZ( const float radians ) const
+Mat4 Mat4::rotate_z( const float radians ) const
 {
 	Mat4 ret = *this;
-	ret.rotateZ( radians );
+	ret.rotate_z( radians );
 	return ret;
 }
 
