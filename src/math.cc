@@ -170,6 +170,12 @@ bool Vec2::operator==( const Vec2& other ) const
 }
 
 
+bool Vec2::operator!=( const Vec2& other ) const
+{
+	return !( *this == other );
+}
+
+
 std::ostream& operator<<( std::ostream& os, const Vec2& v )
 {
 	return os << "[" << v.x << ", " << v.y << "]";

@@ -74,6 +74,7 @@ class Vec2
 	Vec2 operator/( float c ) const;
 
 	bool operator==( const Vec2& other ) const;
+	bool operator!=( const Vec2& other ) const;
 
 	friend std::ostream& operator<<( std::ostream& os, const Vec2& v );
 
