@@ -5,6 +5,8 @@
 #include <cassert>
 #include <cstring>
 
+#include "spot/math/mat4.h"
+
 
 namespace spot::math
 {
@@ -747,6 +749,15 @@ Vec2 Mat4::operator*( const Vec2& v ) const
 {
 	Vec3 ret = *this * Vec3( v.x, v.y );
 	return { ret.x, ret.y };
+}
+
+
+Rect Mat4::operator*( const Rect& r ) const
+{
+	Rect ret = r;
+	ret.a = *this * r.a;
+	ret.b = *this * r.b;
+	return ret;
 }
 
 

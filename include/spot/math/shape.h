@@ -13,8 +13,13 @@ namespace spot::math
 class Rect
 {
   public:
+	static const Rect Unit;
+
 	/// @brief Default constructs a degenerate rect centered at the origin
 	constexpr Rect( const Vec2& aa = {}, const Vec2& bb = {} ) : a { aa }, b { bb } {}
+
+	Rect& operator*=( float c );
+	Rect operator*( float c ) const;
 
 	bool operator==( const Rect& other ) const;
 

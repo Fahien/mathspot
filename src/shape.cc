@@ -3,8 +3,27 @@
 #include <cmath>
 #include <algorithm>
 
+
 namespace spot::math
 {
+
+
+const Rect Rect::Unit = { { -0.5f, -0.5f }, { 0.5f, 0.5f } };
+
+
+Rect& Rect::operator*=( float c )
+{
+	a *= c;
+	b *= c;
+	return *this;
+}
+
+
+Rect Rect::operator*( float c ) const
+{
+	Rect ret = *this;
+	return ret *= c;
+}
 
 
 bool Rect::operator==( const Rect& other ) const
