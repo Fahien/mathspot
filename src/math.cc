@@ -775,6 +775,12 @@ bool Mat4::operator==( const Mat4& other ) const
 }
 
 
+Vec3 Mat4::get_translation() const
+{
+	return { matrix[12], matrix[13], matrix[14] };
+}
+
+
 Mat4& Mat4::translate( const Vec3& vec )
 {
 	matrix[12] += vec.x;

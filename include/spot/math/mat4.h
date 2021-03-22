@@ -36,6 +36,7 @@ class Mat4
 
 	bool operator==( const Mat4& other ) const;
 
+	Vec3 get_translation() const;
 	Mat4& translate( const Vec3& vec );
 	void translate_x( float amount );
 	void translate_y( float amount );
